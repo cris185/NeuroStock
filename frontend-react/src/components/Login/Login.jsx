@@ -51,7 +51,7 @@ const Login = () => {
 
       <input type="password" className='form-control mb-2' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}  />
 
-      {error && <div className='alert alert-danger'>{error}</div>}
+      {error && <div className='text-danger'>{error}</div>}
 
       {loading ? (<button type="submit" className='btn btn-info d-block mx-auto' disabled><FonftAwesomeIcon icon={faSpinner} spin /> Logging in...</button>)
         :  
