@@ -1,0 +1,148 @@
+/* Stock Prediction Portal - Animations & Transitions */
+
+/* ============================================
+   GLOBAL TRANSITIONS
+   ============================================ */
+
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: var(--sp-transition-base);
+  transition-timing-function: ease;
+}
+
+/* Disable transitions on reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+.sp-hover-lift {
+  transition: transform var(--sp-transition-base), box-shadow var(--sp-transition-base);
+}
+
+.sp-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sp-shadow-lg);
+}
+
+.sp-hover-scale {
+  transition: transform var(--sp-transition-base);
+}
+
+.sp-hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.sp-hover-glow {
+  transition: box-shadow var(--sp-transition-base);
+}
+
+.sp-hover-glow:hover {
+  box-shadow: var(--sp-shadow-glow);
+}
+
+/* ============================================
+   LOADING ANIMATIONS
+   ============================================ */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.sp-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.sp-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ============================================
+   FADE ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.sp-fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sp-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* ============================================
+   SKELETON LOADING
+   ============================================ */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.sp-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--sp-gray-dark) 0%,
+    var(--sp-gray-medium) 20%,
+    var(--sp-gray-dark) 40%,
+    var(--sp-gray-dark) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s linear infinite;
+  border-radius: var(--sp-radius-md);
+}
+
+/* ============================================
+   BUTTON PRESS EFFECT
+   ============================================ */
+
+.sp-btn-press {
+  transition: transform var(--sp-transition-fast);
+}
+
+.sp-btn-press:active {
+  transform: translateY(0) scale(0.98);
+}

@@ -1,0 +1,184 @@
+/* Stock Prediction Portal - Typography Styles */
+
+/* ============================================
+   BASE TYPOGRAPHY
+   ============================================ */
+
+body {
+  font-family: var(--sp-font-primary);
+  font-size: var(--sp-text-base);
+  line-height: var(--sp-leading-normal);
+  color: var(--sp-text-secondary);
+  font-weight: var(--sp-font-regular);
+}
+
+/* ============================================
+   HEADINGS
+   ============================================ */
+
+h1, .sp-h1 {
+  font-family: var(--sp-font-display);
+  font-size: var(--sp-text-5xl);
+  font-weight: var(--sp-font-bold);
+  line-height: var(--sp-leading-tight);
+  color: var(--sp-text-primary);
+  margin-bottom: var(--sp-space-3);
+}
+
+h2, .sp-h2 {
+  font-family: var(--sp-font-display);
+  font-size: var(--sp-text-4xl);
+  font-weight: var(--sp-font-semibold);
+  line-height: var(--sp-leading-tight);
+  color: var(--sp-text-primary);
+  margin-bottom: var(--sp-space-3);
+}
+
+h3, .sp-h3 {
+  font-family: var(--sp-font-display);
+  font-size: var(--sp-text-3xl);
+  font-weight: var(--sp-font-semibold);
+  color: var(--sp-text-primary);
+  margin-bottom: var(--sp-space-2);
+}
+
+h4, .sp-h4 {
+  font-size: var(--sp-text-2xl);
+  font-weight: var(--sp-font-medium);
+  color: var(--sp-text-primary);
+  margin-bottom: var(--sp-space-2);
+}
+
+h5, .sp-h5 {
+  font-size: var(--sp-text-xl);
+  font-weight: var(--sp-font-medium);
+  color: var(--sp-text-primary);
+  margin-bottom: var(--sp-space-2);
+}
+
+h6, .sp-h6 {
+  font-size: var(--sp-text-lg);
+  font-weight: var(--sp-font-medium);
+  color: var(--sp-text-primary);
+  margin-bottom: var(--sp-space-2);
+}
+
+/* ============================================
+   TEXT UTILITIES
+   ============================================ */
+
+.sp-lead {
+  font-size: var(--sp-text-xl);
+  font-weight: var(--sp-font-regular);
+  line-height: var(--sp-leading-relaxed);
+  color: var(--sp-text-secondary);
+}
+
+.sp-text-small {
+  font-size: var(--sp-text-sm);
+}
+
+.sp-text-xs {
+  font-size: var(--sp-text-xs);
+}
+
+/* Text Colors */
+.sp-text-primary {
+  color: var(--sp-text-primary);
+}
+
+.sp-text-secondary {
+  color: var(--sp-text-secondary);
+}
+
+.sp-text-muted {
+  color: var(--sp-text-muted);
+}
+
+.sp-text-accent {
+  color: var(--sp-text-accent);
+}
+
+/* Text Gradient */
+.sp-text-gradient {
+  background: var(--sp-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Font Weights */
+.sp-font-light {
+  font-weight: var(--sp-font-light);
+}
+
+.sp-font-regular {
+  font-weight: var(--sp-font-regular);
+}
+
+.sp-font-medium {
+  font-weight: var(--sp-font-medium);
+}
+
+.sp-font-semibold {
+  font-weight: var(--sp-font-semibold);
+}
+
+.sp-font-bold {
+  font-weight: var(--sp-font-bold);
+}
+
+/* Monospace for ticker symbols */
+.sp-ticker {
+  font-family: var(--sp-font-mono);
+  font-weight: var(--sp-font-medium);
+  color: var(--sp-text-accent);
+}
+
+/* ============================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================ */
+
+/* Ultra-Mobile (320px - base styles above serve as mobile-first) */
+
+/* Small Mobile (480px+) */
+@media (min-width: 480px) {
+  h1, .sp-h1 {
+    font-size: var(--sp-text-4xl); /* 30px */
+  }
+
+  h2, .sp-h2 {
+    font-size: var(--sp-text-3xl); /* 24px */
+  }
+
+  h3, .sp-h3 {
+    font-size: var(--sp-text-2xl); /* 24px */
+  }
+
+  .sp-lead {
+    font-size: var(--sp-text-lg); /* 18px */
+  }
+}
+
+/* Tablet (768px+) */
+@media (min-width: 768px) {
+  h1, .sp-h1 {
+    font-size: var(--sp-text-5xl); /* Uses variable value from breakpoint */
+  }
+
+  h2, .sp-h2 {
+    font-size: var(--sp-text-4xl);
+  }
+
+  h3, .sp-h3 {
+    font-size: var(--sp-text-3xl);
+  }
+
+  .sp-lead {
+    font-size: var(--sp-text-xl);
+  }
+}
+
+/* Desktop (1024px+) - Inherits from variables.css breakpoint */
+
+/* Large Desktop (1200px+) - Inherits from variables.css breakpoint */

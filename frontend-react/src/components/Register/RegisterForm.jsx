@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { registerSchema } from './registerSchema';
-import { FontAwesomeIcon as FonftAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faSpinner, faUser, faEnvelope, faLock} from '@fortawesome/free-solid-svg-icons';
 
-
-// Componente que maneja la logica de registro de usuarios y el manejo de errores
 const RegisterForm = () => {
   const [serverError, setServerError] = useState('');
-  const[success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -24,6 +22,7 @@ const RegisterForm = () => {
 
   const onSubmit = async (data) => {
     setServerError('');
+    setSuccess(false);
     setLoading(true);
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/v1/register/', {
@@ -36,11 +35,11 @@ const RegisterForm = () => {
       reset();
     } catch (error) {
       if (error.response?.data?.username) {
-        setServerError(`Username: ${error.response.data.username[0]}`);
+        setServerError(`Usuario: ${error.response.data.username[0]}`);
       } else if (error.response?.data?.email) {
         setServerError(`Email: ${error.response.data.email[0]}`);
       } else {
-        setServerError('Registration error, probably the conexion failed. Try later.');
+        setServerError('Error en el registro. Intenta más tarde.');
       }
     }finally{
       setLoading(false);
@@ -49,27 +48,79 @@ const RegisterForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" className='form-control mb-2' placeholder='Username' {...register('username')} />
-      {errors.username && <p className='text-danger'>{errors.username.message}</p>}
+      <div className='sp-form-group'>
+        <label className='sp-form-label' htmlFor='username'>Usuario</label>
+        <div className='sp-form-input-wrapper'>
+          <FontAwesomeIcon icon={faUser} className='sp-form-input-icon' />
+          <input
+            type="text"
+            id='username'
+            className={`sp-form-input sp-form-input-with-icon ${errors.username ? 'sp-form-input-error' : ''}`}
+            placeholder='Ingresa tu usuario'
+            {...register('username')}
+          />
+        </div>
+        {errors.username && <span className='sp-form-error-message'>{errors.username.message}</span>}
+      </div>
 
-      <input type="email" className='form-control mb-2' placeholder='Email' {...register('email')} />
-      {errors.email && <p className='text-danger'>{errors.email.message}</p>}
+      <div className='sp-form-group'>
+        <label className='sp-form-label' htmlFor='email'>Email</label>
+        <div className='sp-form-input-wrapper'>
+          <FontAwesomeIcon icon={faEnvelope} className='sp-form-input-icon' />
+          <input
+            type="email"
+            id='email'
+            className={`sp-form-input sp-form-input-with-icon ${errors.email ? 'sp-form-input-error' : ''}`}
+            placeholder='Ingresa tu email'
+            {...register('email')}
+          />
+        </div>
+        {errors.email && <span className='sp-form-error-message'>{errors.email.message}</span>}
+      </div>
 
-      <input type="password" className='form-control mb-2' placeholder='Password' {...register('password')} />
-      {errors.password && <p className='text-danger'>{errors.password.message}</p>}
+      <div className='sp-form-group'>
+        <label className='sp-form-label' htmlFor='password'>Contraseña</label>
+        <div className='sp-form-input-wrapper'>
+          <FontAwesomeIcon icon={faLock} className='sp-form-input-icon' />
+          <input
+            type="password"
+            id='password'
+            className={`sp-form-input sp-form-input-with-icon ${errors.password ? 'sp-form-input-error' : ''}`}
+            placeholder='Crea una contraseña'
+            {...register('password')}
+          />
+        </div>
+        {errors.password && <span className='sp-form-error-message'>{errors.password.message}</span>}
+      </div>
 
-      <input type="password" className='form-control mb-2' placeholder='Confirm password' {...register('confirmPassword')} />
-      {errors.confirmPassword && <p className='text-danger'>{errors.confirmPassword.message}</p>}
+      <div className='sp-form-group'>
+        <label className='sp-form-label' htmlFor='confirmPassword'>Confirmar Contraseña</label>
+        <div className='sp-form-input-wrapper'>
+          <FontAwesomeIcon icon={faLock} className='sp-form-input-icon' />
+          <input
+            type="password"
+            id='confirmPassword'
+            className={`sp-form-input sp-form-input-with-icon ${errors.confirmPassword ? 'sp-form-input-error' : ''}`}
+            placeholder='Confirma tu contraseña'
+            {...register('confirmPassword')}
+          />
+        </div>
+        {errors.confirmPassword && <span className='sp-form-error-message'>{errors.confirmPassword.message}</span>}
+      </div>
 
-      {serverError && <p className='text-danger text-center my-3'>{serverError}</p>}
+      {serverError && <div className='sp-alert-danger'>{serverError}</div>}
+      {success && <div className='sp-alert-success'>¡Registro exitoso! Ya puedes iniciar sesión.</div>}
 
-      {success && <p className='alert alert-success text-center my-3'>Registration successful!</p>}
-
-      {loading ? (<button type="submit" className='btn btn-info d-block mx-auto' disabled><FonftAwesomeIcon icon={faSpinner} spin /> Please wait...</button>)
-        :  
-      ( <button type="submit" className='btn btn-info d-block mx-auto'>Register</button>)
-      }
-
+      <button type="submit" className='sp-btn-form-submit' disabled={loading}>
+        {loading ? (
+          <>
+            <FontAwesomeIcon icon={faSpinner} spin />
+            Registrando...
+          </>
+        ) : (
+          'Registrarse'
+        )}
+      </button>
     </form>
   );
 };

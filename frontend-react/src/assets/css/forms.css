@@ -1,0 +1,410 @@
+/* Stock Prediction Portal - Form Styles */
+
+/* ============================================
+   FORM CONTAINER
+   ============================================ */
+
+.sp-form-container {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-space-4) var(--sp-space-2);
+}
+
+.sp-form-gradient-card {
+  background: var(--sp-gradient-card);
+  border: 1px solid var(--sp-border-color);
+  border-radius: var(--sp-radius-lg);
+  padding: var(--sp-space-6);
+  box-shadow: var(--sp-shadow-lg);
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   FORM HEADINGS
+   ============================================ */
+
+.sp-form-heading {
+  font-family: var(--sp-font-display);
+  font-size: var(--sp-text-3xl);
+  font-weight: var(--sp-font-bold);
+  color: var(--sp-text-primary);
+  text-align: center;
+  margin-bottom: var(--sp-space-4);
+  background: var(--sp-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sp-form-subheading {
+  font-size: var(--sp-text-sm);
+  color: var(--sp-text-secondary);
+  text-align: center;
+  margin-bottom: var(--sp-space-4);
+}
+
+/* ============================================
+   FORM GROUPS
+   ============================================ */
+
+.sp-form-group {
+  margin-bottom: var(--sp-space-3);
+  position: relative;
+}
+
+.sp-form-label {
+  display: block;
+  font-size: var(--sp-text-sm);
+  font-weight: var(--sp-font-medium);
+  color: var(--sp-text-secondary);
+  margin-bottom: var(--sp-space-1);
+}
+
+/* ============================================
+   FORM INPUTS
+   ============================================ */
+
+.sp-form-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--sp-space-2);
+  background: var(--sp-gray-dark);
+  border: 1px solid var(--sp-gray-medium);
+  border-radius: var(--sp-radius-md);
+  color: var(--sp-text-primary);
+  font-size: var(--sp-text-base);
+  font-family: var(--sp-font-primary);
+  transition: all var(--sp-transition-base);
+}
+
+.sp-form-input::placeholder {
+  color: var(--sp-text-muted);
+}
+
+.sp-form-input:focus {
+  outline: none;
+  border-color: var(--sp-primary-light);
+  box-shadow: 0 0 0 3px rgba(46, 90, 143, 0.3);
+  background: var(--sp-gray-medium);
+}
+
+.sp-form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Input with icon */
+.sp-form-input-wrapper {
+  position: relative;
+}
+
+.sp-form-input-icon {
+  position: absolute;
+  left: var(--sp-space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--sp-text-muted);
+  pointer-events: none;
+}
+
+.sp-form-input-with-icon {
+  padding-left: 2.75rem;
+}
+
+/* ============================================
+   VALIDATION STATES
+   ============================================ */
+
+.sp-form-input-error {
+  border-color: var(--sp-error);
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+}
+
+.sp-form-input-error:focus {
+  border-color: var(--sp-error);
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.3);
+}
+
+.sp-form-input-success {
+  border-color: var(--sp-success);
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
+}
+
+.sp-form-input-success:focus {
+  border-color: var(--sp-success);
+  box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.3);
+}
+
+/* ============================================
+   ERROR & SUCCESS MESSAGES
+   ============================================ */
+
+.sp-form-error-message {
+  display: block;
+  margin-top: var(--sp-space-1);
+  font-size: var(--sp-text-sm);
+  color: var(--sp-error);
+  font-weight: var(--sp-font-medium);
+}
+
+.sp-form-success-message {
+  display: block;
+  margin-top: var(--sp-space-1);
+  font-size: var(--sp-text-sm);
+  color: var(--sp-success);
+  font-weight: var(--sp-font-medium);
+}
+
+.sp-form-helper-text {
+  display: block;
+  margin-top: var(--sp-space-1);
+  font-size: var(--sp-text-xs);
+  color: var(--sp-text-muted);
+}
+
+/* Alert styles */
+.sp-alert-danger {
+  background: rgba(231, 76, 60, 0.1);
+  border: 1px solid var(--sp-error);
+  border-radius: var(--sp-radius-md);
+  padding: var(--sp-space-2);
+  color: var(--sp-error);
+  font-size: var(--sp-text-sm);
+  margin-bottom: var(--sp-space-3);
+}
+
+.sp-alert-success {
+  background: rgba(39, 174, 96, 0.1);
+  border: 1px solid var(--sp-success);
+  border-radius: var(--sp-radius-md);
+  padding: var(--sp-space-2);
+  color: var(--sp-success);
+  font-size: var(--sp-text-sm);
+  margin-bottom: var(--sp-space-3);
+}
+
+/* ============================================
+   SUBMIT BUTTON
+   ============================================ */
+
+.sp-btn-form-submit {
+  width: 100%;
+  height: 48px;
+  background: var(--sp-gradient-primary);
+  color: var(--sp-text-primary);
+  border: none;
+  border-radius: var(--sp-radius-md);
+  font-weight: var(--sp-font-semibold);
+  font-size: var(--sp-text-base);
+  cursor: pointer;
+  transition: all var(--sp-transition-base);
+  margin-top: var(--sp-space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-space-1);
+}
+
+.sp-btn-form-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--sp-shadow-glow);
+}
+
+.sp-btn-form-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.sp-btn-form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   FORM LINKS
+   ============================================ */
+
+.sp-form-link {
+  color: var(--sp-primary-light);
+  text-decoration: none;
+  font-weight: var(--sp-font-medium);
+  transition: color var(--sp-transition-base);
+}
+
+.sp-form-link:hover {
+  color: var(--sp-primary-lighter);
+  text-decoration: underline;
+}
+
+.sp-form-footer {
+  text-align: center;
+  margin-top: var(--sp-space-4);
+  padding-top: var(--sp-space-3);
+  border-top: 1px solid var(--sp-border-color);
+  font-size: var(--sp-text-sm);
+  color: var(--sp-text-secondary);
+}
+
+.sp-form-footer-link {
+  display: block;
+  margin-top: var(--sp-space-2);
+}
+
+/* ============================================
+   CHECKBOX & RADIO
+   ============================================ */
+
+.sp-form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-space-1);
+  margin-bottom: var(--sp-space-2);
+}
+
+.sp-form-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.sp-form-checkbox label {
+  font-size: var(--sp-text-sm);
+  color: var(--sp-text-secondary);
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+
+/* Tablet and below (768px) */
+@media (max-width: 768px) {
+  .sp-form-container {
+    padding: var(--sp-space-3) var(--sp-space-2);
+  }
+
+  .sp-form-gradient-card {
+    padding: var(--sp-space-5);
+  }
+
+  .sp-form-heading {
+    font-size: var(--sp-text-2xl);
+  }
+
+  .sp-form-input {
+    height: 48px;
+  }
+
+  .sp-btn-form-submit {
+    height: 48px;
+  }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+  .sp-form-container {
+    padding: var(--sp-space-2) var(--sp-space-1);
+  }
+
+  .sp-form-gradient-card {
+    padding: var(--sp-space-4);
+  }
+
+  .sp-form-heading {
+    font-size: var(--sp-text-xl);
+  }
+
+  .sp-form-subheading {
+    font-size: var(--sp-text-xs);
+  }
+
+  .sp-form-input {
+    height: 44px; /* Touch-friendly minimum */
+    font-size: var(--sp-text-sm);
+    padding-left: var(--sp-space-2);
+  }
+
+  .sp-form-input-with-icon {
+    padding-left: 2.5rem;
+  }
+
+  .sp-form-input-icon {
+    font-size: 0.9rem;
+    left: 0.75rem;
+  }
+
+  .sp-btn-form-submit {
+    height: 44px; /* Touch-friendly minimum */
+    font-size: var(--sp-text-sm);
+  }
+
+  .sp-form-label {
+    font-size: var(--sp-text-xs);
+  }
+
+  .sp-alert-danger,
+  .sp-alert-success {
+    font-size: var(--sp-text-xs);
+    padding: var(--sp-space-2);
+  }
+}
+
+/* Ultra-Mobile (320px and below) */
+@media (max-width: 320px) {
+  .sp-form-container {
+    padding: var(--sp-space-2) var(--sp-space-1);
+  }
+
+  .sp-form-gradient-card {
+    padding: var(--sp-space-3);
+  }
+
+  .sp-form-heading {
+    font-size: var(--sp-text-lg);
+    margin-bottom: var(--sp-space-2);
+  }
+
+  .sp-form-subheading {
+    font-size: var(--sp-text-xs);
+    margin-bottom: var(--sp-space-2);
+  }
+
+  .sp-form-group {
+    margin-bottom: var(--sp-space-2);
+  }
+
+  .sp-form-input {
+    height: 44px;
+    font-size: 0.875rem; /* 14px */
+  }
+
+  .sp-form-input-with-icon {
+    padding-left: 2.25rem;
+  }
+
+  .sp-form-input-icon {
+    font-size: 0.8rem;
+    left: 0.65rem;
+  }
+
+  .sp-btn-form-submit {
+    height: 44px;
+    font-size: 0.875rem;
+  }
+
+  .sp-form-footer {
+    font-size: var(--sp-text-xs);
+    margin-top: var(--sp-space-3);
+    padding-top: var(--sp-space-2);
+  }
+
+  .sp-alert-danger,
+  .sp-alert-success {
+    font-size: 0.7rem;
+    padding: var(--sp-space-1);
+  }
+}

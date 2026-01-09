@@ -1,0 +1,158 @@
+/* Stock Prediction Portal - Design System Variables */
+/* Professional Financial Theme inspired by Bloomberg/TradingView */
+
+:root {
+  /* ============================================
+     COLOR PALETTE - Professional Financial Theme
+     ============================================ */
+
+  /* Primary Blues - Trust & Stability */
+  --sp-primary-dark: #0A2540;
+  --sp-primary: #1E3A5F;
+  --sp-primary-light: #2E5A8F;
+  --sp-primary-lighter: #4A7AB7;
+
+  /* Success Greens - Growth & Success */
+  --sp-success-dark: #0B5345;
+  --sp-success: #27AE60;
+  --sp-success-light: #45C77D;
+
+  /* Professional Grays */
+  --sp-gray-darker: #1A1D23;
+  --sp-gray-dark: #252932;
+  --sp-gray-medium: #353A46;
+  --sp-gray-light: #4A5160;
+  --sp-gray-lighter: #6C7589;
+
+  /* Text Colors */
+  --sp-text-primary: #FFFFFF;
+  --sp-text-secondary: #B8BFCC;
+  --sp-text-muted: #8A92A5;
+  --sp-text-accent: #00D4FF;
+
+  /* Semantic Colors */
+  --sp-error: #E74C3C;
+  --sp-warning: #F39C12;
+  --sp-info: #3498DB;
+
+  /* Gradients */
+  --sp-gradient-primary: linear-gradient(135deg, #1E3A5F 0%, #2E5A8F 100%);
+  --sp-gradient-hero: linear-gradient(135deg, #0A2540 0%, #1E3A5F 50%, #2E5A8F 100%);
+  --sp-gradient-card: linear-gradient(180deg, #252932 0%, #1F232C 100%);
+  --sp-gradient-success: linear-gradient(135deg, #0B5345 0%, #27AE60 100%);
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+
+  /* Font Families */
+  --sp-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sp-font-display: 'Poppins', 'Inter', sans-serif;
+  --sp-font-mono: 'Roboto Mono', 'Courier New', monospace;
+
+  /* Font Sizes */
+  --sp-text-xs: 0.75rem;    /* 12px */
+  --sp-text-sm: 0.875rem;   /* 14px */
+  --sp-text-base: 1rem;     /* 16px */
+  --sp-text-lg: 1.125rem;   /* 18px */
+  --sp-text-xl: 1.25rem;    /* 20px */
+  --sp-text-2xl: 1.5rem;    /* 24px */
+  --sp-text-3xl: 1.875rem;  /* 30px */
+  --sp-text-4xl: 2.25rem;   /* 36px */
+  --sp-text-5xl: 3rem;      /* 48px */
+
+  /* Font Weights */
+  --sp-font-light: 300;
+  --sp-font-regular: 400;
+  --sp-font-medium: 500;
+  --sp-font-semibold: 600;
+  --sp-font-bold: 700;
+
+  /* Line Heights */
+  --sp-leading-tight: 1.25;
+  --sp-leading-normal: 1.5;
+  --sp-leading-relaxed: 1.75;
+
+  /* ============================================
+     SPACING SYSTEM (8px base unit)
+     ============================================ */
+
+  --sp-space-1: 0.5rem;   /* 8px */
+  --sp-space-2: 1rem;     /* 16px */
+  --sp-space-3: 1.5rem;   /* 24px */
+  --sp-space-4: 2rem;     /* 32px */
+  --sp-space-5: 2.5rem;   /* 40px */
+  --sp-space-6: 3rem;     /* 48px */
+  --sp-space-8: 4rem;     /* 64px */
+  --sp-space-10: 5rem;    /* 80px */
+
+  /* ============================================
+     SHADOWS & ELEVATION
+     ============================================ */
+
+  --sp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --sp-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --sp-shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.5);
+  --sp-shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --sp-shadow-glow: 0 0 20px rgba(30, 58, 95, 0.5);
+  --sp-shadow-glow-success: 0 0 20px rgba(39, 174, 96, 0.4);
+
+  /* ============================================
+     BORDERS & RADIUS
+     ============================================ */
+
+  --sp-radius-sm: 0.25rem;  /* 4px */
+  --sp-radius-md: 0.5rem;   /* 8px */
+  --sp-radius-lg: 0.75rem;  /* 12px */
+  --sp-radius-xl: 1rem;     /* 16px */
+  --sp-radius-full: 9999px; /* Pill shape */
+
+  --sp-border-width: 1px;
+  --sp-border-color: var(--sp-gray-medium);
+
+  /* ============================================
+     TRANSITIONS
+     ============================================ */
+
+  --sp-transition-fast: 0.15s ease;
+  --sp-transition-base: 0.3s ease;
+  --sp-transition-slow: 0.5s ease;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Small Mobile (480px+) */
+@media (min-width: 480px) {
+  :root {
+    --sp-text-5xl: 2.25rem;  /* 36px */
+    --sp-text-4xl: 1.875rem; /* 30px */
+    --sp-text-3xl: 1.5rem;   /* 24px */
+  }
+}
+
+/* Tablet (768px+) - Already implemented in individual files */
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+  :root {
+    --sp-text-5xl: 3rem;     /* 48px - back to desktop size */
+    --sp-text-4xl: 2.25rem;  /* 36px */
+    --sp-text-3xl: 1.875rem; /* 30px */
+  }
+}
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+  :root {
+    --sp-text-5xl: 3.5rem;   /* 56px - enhanced for large screens */
+    --sp-text-4xl: 2.5rem;   /* 40px */
+    --sp-text-3xl: 2rem;     /* 32px */
+    --sp-space-8: 5rem;      /* 80px - more generous spacing */
+    --sp-space-10: 6rem;     /* 96px */
+  }
+}
+
+/* Ultra-Mobile (320px - base, no media query needed as mobile-first) */
+/* Font sizes at 320px are the default :root values above */

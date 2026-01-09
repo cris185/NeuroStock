@@ -1,0 +1,274 @@
+/* Stock Prediction Portal - Header Styles */
+
+/* ============================================
+   STICKY NAVIGATION
+   ============================================ */
+
+.sp-nav-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(26, 29, 35, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--sp-border-color);
+  transition: all var(--sp-transition-base);
+  padding-top: 0 !important;
+}
+
+.sp-nav-sticky.scrolled {
+  box-shadow: var(--sp-shadow-md);
+  background: rgba(26, 29, 35, 0.98);
+}
+
+/* ============================================
+   LOGO STYLES
+   ============================================ */
+
+.sp-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: all var(--sp-transition-base);
+  cursor: pointer;
+}
+
+.sp-logo-container:hover {
+  transform: translateY(-2px);
+}
+
+.sp-logo-icon {
+  font-size: 1.75rem;
+  background: var(--sp-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(46, 90, 143, 0.5));
+}
+
+.sp-logo-text {
+  font-family: var(--sp-font-display);
+  font-size: var(--sp-text-xl);
+  font-weight: var(--sp-font-bold);
+  background: var(--sp-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1;
+}
+
+/* ============================================
+   NAVIGATION ACTIONS
+   ============================================ */
+
+.sp-nav-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* ============================================
+   HEADER BUTTONS
+   ============================================ */
+
+.sp-btn-header-primary {
+  background: var(--sp-gradient-primary);
+  color: var(--sp-text-primary);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--sp-radius-md);
+  font-weight: var(--sp-font-semibold);
+  font-size: var(--sp-text-sm);
+  transition: all var(--sp-transition-base);
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.sp-btn-header-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sp-shadow-glow);
+  color: var(--sp-text-primary);
+  text-decoration: none;
+}
+
+.sp-btn-header-primary:active {
+  transform: translateY(0);
+}
+
+.sp-btn-header-secondary {
+  background: transparent;
+  color: var(--sp-primary-light);
+  border: 1px solid var(--sp-primary-light);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--sp-radius-md);
+  font-weight: var(--sp-font-semibold);
+  font-size: var(--sp-text-sm);
+  transition: all var(--sp-transition-base);
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.sp-btn-header-secondary:hover {
+  background: var(--sp-primary-light);
+  color: var(--sp-text-primary);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.sp-btn-header-secondary:active {
+  transform: translateY(0);
+}
+
+.sp-btn-header-danger {
+  background: transparent;
+  color: var(--sp-error);
+  border: 1px solid var(--sp-error);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--sp-radius-md);
+  font-weight: var(--sp-font-semibold);
+  font-size: var(--sp-text-sm);
+  transition: all var(--sp-transition-base);
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.sp-btn-header-danger:hover {
+  background: var(--sp-error);
+  color: var(--sp-text-primary);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.sp-btn-header-danger:active {
+  transform: translateY(0);
+}
+
+/* ============================================
+   RESPONSIVE STYLES
+   ============================================ */
+
+/* Tablet and below (768px) */
+@media (max-width: 768px) {
+  .sp-logo-text {
+    font-size: var(--sp-text-lg);
+  }
+
+  .sp-logo-icon {
+    font-size: 1.5rem;
+  }
+
+  .sp-nav-actions {
+    gap: 0.5rem;
+  }
+
+  .sp-btn-header-primary,
+  .sp-btn-header-secondary,
+  .sp-btn-header-danger {
+    padding: 0.4rem 1rem;
+    font-size: var(--sp-text-xs);
+  }
+
+  .sp-nav-sticky {
+    height: 60px;
+  }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+  .sp-logo-container {
+    gap: 0.5rem;
+  }
+
+  .sp-logo-text {
+    font-size: 1rem; /* 16px */
+  }
+
+  .sp-logo-icon {
+    font-size: 1.25rem;
+  }
+
+  .sp-nav-actions {
+    gap: 0.5rem;
+  }
+
+  .sp-btn-header-primary,
+  .sp-btn-header-secondary,
+  .sp-btn-header-danger {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .sp-nav-sticky {
+    height: 56px;
+  }
+}
+
+/* Ultra-Mobile (320px and below) */
+@media (max-width: 320px) {
+  .sp-logo-container {
+    gap: 0.4rem;
+  }
+
+  .sp-logo-text {
+    font-size: 0.875rem; /* 14px */
+  }
+
+  .sp-logo-icon {
+    font-size: 1.125rem;
+  }
+
+  .sp-nav-actions {
+    gap: 0.35rem;
+  }
+
+  .sp-btn-header-primary,
+  .sp-btn-header-secondary,
+  .sp-btn-header-danger {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .sp-nav-sticky {
+    height: 52px;
+  }
+}
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+  .sp-nav-sticky {
+    height: 80px;
+    padding: 0 var(--sp-space-4);
+  }
+
+  .sp-logo-container {
+    gap: 1rem;
+  }
+
+  .sp-logo-icon {
+    font-size: 2rem;
+  }
+
+  .sp-logo-text {
+    font-size: var(--sp-text-2xl); /* 24px */
+  }
+
+  .sp-nav-actions {
+    gap: 1.5rem;
+  }
+
+  .sp-btn-header-primary,
+  .sp-btn-header-secondary,
+  .sp-btn-header-danger {
+    padding: 0.6rem 1.75rem;
+    font-size: var(--sp-text-base);
+  }
+}

@@ -1,14 +1,20 @@
 import React from 'react';
 import RegisterForm from './RegisterForm';
+import { Link } from 'react-router-dom';
 
-// Renderización del componente de registro
-// Este componente es el que se muestra en la página de registro
 const Register = () => (
-  <div className='container'>
-    <div className='row justify-content-center'>
-      <div className='col-md-6 bg-light-dark p-5 rounded'>
-        <h3 className='text-light text-center mb-4'>Crear cuenta</h3>
-        <RegisterForm />
+  <div className='sp-form-container'>
+    <div className='sp-form-gradient-card'>
+      <h2 className='sp-form-heading'>Crear Cuenta</h2>
+      <p className='sp-form-subheading'>Únete y comienza a predecir precios de acciones</p>
+
+      <RegisterForm />
+
+      <div className='sp-form-footer'>
+        <span className='sp-text-secondary'>¿Ya tienes una cuenta?</span>
+        <Link to='/login' className='sp-form-link sp-form-footer-link'>
+          Inicia sesión aquí
+        </Link>
       </div>
     </div>
   </div>

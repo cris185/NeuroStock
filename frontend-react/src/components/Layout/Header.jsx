@@ -1,12 +1,13 @@
 import {useContext} from 'react'
-import Button from '../Buttons/Button'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../Hooks/AuthProvider'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChartLine } from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
   const navigate = useNavigate();
-  
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
@@ -16,30 +17,34 @@ const Header = () => {
   }
 
   return (
-    <>
-    <nav className='navbar container pt-3 align-items-start' >
-        <Link className='navbar-brand text-light' to="/" >Stock Prediction Portal</Link>
-    
-        <div>
-            {isLoggedIn ? (
-              <>
-                <Button text='Dashboard' class='btn-info'  url='/dashboard' />
-                &nbsp;
-                <button  className='btn btn-danger' onClick={handleLogout}>Logout</button>
-              </>
-              
-            ): (
-            <>
-            <Button text='Login' class='btn-outline-info' url="/login"/>
-            &nbsp;
-            <Button text='Register' class='btn-info' url="/register"/>
-            </>          
-            )}   
-        </div>
-    
-    
+    <nav className='sp-nav-sticky container'>
+      <Link className='sp-logo-container' to="/">
+        <FontAwesomeIcon icon={faChartLine} className='sp-logo-icon' />
+        <span className='sp-logo-text'>Stock Prediction Portal</span>
+      </Link>
+
+      <div className='sp-nav-actions'>
+        {isLoggedIn ? (
+          <>
+            <Link className='sp-btn-header-primary' to='/dashboard'>
+              Dashboard
+            </Link>
+            <button className='sp-btn-header-danger' onClick={handleLogout}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link className='sp-btn-header-secondary' to="/login">
+              Login
+            </Link>
+            <Link className='sp-btn-header-primary' to="/register">
+              Register
+            </Link>
+          </>
+        )}
+      </div>
     </nav>
-    </>
   )
 }
 
