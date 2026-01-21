@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './assets/css/globals.css'
 import './assets/css/style.css'
 import Main from './components/Main'
 import Register from './components/Register/Register'

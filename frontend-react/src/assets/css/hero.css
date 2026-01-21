@@ -60,7 +60,8 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
-  animation: shimmer 3s ease-in-out infinite;
+  /* Animation removed - was causing visual distraction */
+  /* animation: shimmer 3s ease-in-out infinite; */
 }
 
 .sp-hero-subtitle {

@@ -1,0 +1,395 @@
+/* Stock Prediction Portal - Global Styles with Tailwind CSS v4 */
+
+/* Font imports - Must be at the top */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+/* Tailwind CSS v4 import */
+@import "tailwindcss";
+
+/* CSS Variables for Design System */
+:root {
+  /* Colors - Primary Blues */
+  --primary-dark: #0A2540;
+  --primary: #1E3A5F;
+  --primary-light: #2E5A8F;
+  --primary-lighter: #4A7AB7;
+
+  /* Colors - Success Greens */
+  --success-dark: #0B5345;
+  --success: #27AE60;
+  --success-light: #45C77D;
+
+  /* Colors - Professional Grays */
+  --gray-darker: #1A1D23;
+  --gray-dark: #252932;
+  --gray-medium: #353A46;
+  --gray-light: #4A5160;
+  --gray-lighter: #6C7589;
+
+  /* Text Colors */
+  --text-primary: #FFFFFF;
+  --text-secondary: #B8BFCC;
+  --text-muted: #8A92A5;
+  --text-accent: #00D4FF;
+
+  /* Semantic Colors */
+  --error: #E74C3C;
+  --warning: #F39C12;
+  --info: #3498DB;
+
+  /* Tailwind-compatible variables */
+  --background: #1A1D23;
+  --foreground: #FFFFFF;
+  --border: #353A46;
+  --input: #353A46;
+  --ring: #2E5A8F;
+
+  /* Spacing (compatible with existing system) */
+  --sp-space-1: 0.5rem;
+  --sp-space-2: 1rem;
+  --sp-space-3: 1.5rem;
+  --sp-space-4: 2rem;
+  --sp-space-5: 2.5rem;
+  --sp-space-6: 3rem;
+  --sp-space-8: 4rem;
+  --sp-space-10: 5rem;
+
+  /* Transitions */
+  --sp-transition-fast: 0.15s ease;
+  --sp-transition-base: 0.3s ease;
+  --sp-transition-slow: 0.5s ease;
+
+  /* Line Heights */
+  --sp-leading-tight: 1.25;
+  --sp-leading-normal: 1.5;
+  --sp-leading-relaxed: 1.75;
+
+  /* Font families */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Poppins', 'Inter', sans-serif;
+  --font-mono: 'Roboto Mono', 'Courier New', monospace;
+}
+
+/* Base styles */
+* {
+  border-color: var(--border);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Container utilities */
+.sp-container {
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .sp-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sp-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.sp-container-fluid {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .sp-container-fluid {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sp-container-fluid {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* Card components */
+.sp-card {
+  background-color: var(--gray-dark);
+  color: var(--text-primary);
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.sp-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1.5rem;
+}
+
+.sp-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+.sp-card-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.sp-card-content {
+  padding: 1.5rem;
+  padding-top: 0;
+}
+
+.sp-card-footer {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  padding-top: 0;
+}
+
+/* Button components */
+.sp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition-property: color, background-color, border-color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border: none;
+}
+
+.sp-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.sp-button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.sp-button-primary {
+  background-color: var(--primary);
+  color: var(--text-primary);
+}
+
+.sp-button-primary:hover {
+  background-color: var(--primary-light);
+}
+
+.sp-button-secondary {
+  background-color: var(--gray-medium);
+  color: var(--text-primary);
+}
+
+.sp-button-secondary:hover {
+  background-color: var(--gray-light);
+}
+
+.sp-button-destructive {
+  background-color: var(--error);
+  color: var(--text-primary);
+}
+
+.sp-button-destructive:hover {
+  opacity: 0.9;
+}
+
+.sp-button-outline {
+  border: 1px solid var(--input);
+  background-color: transparent;
+  color: var(--text-primary);
+}
+
+.sp-button-outline:hover {
+  background-color: var(--primary);
+  color: var(--text-primary);
+}
+
+.sp-button-ghost {
+  background-color: transparent;
+  color: var(--text-primary);
+}
+
+.sp-button-ghost:hover {
+  background-color: var(--primary);
+  color: var(--text-primary);
+}
+
+/* Input components */
+.sp-input {
+  display: flex;
+  height: 2.5rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid var(--input);
+  background-color: transparent;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.sp-input::placeholder {
+  color: var(--text-muted);
+}
+
+.sp-input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.sp-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.sp-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+/* Gradient utilities */
+.sp-gradient-primary {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2E5A8F 100%);
+}
+
+.sp-gradient-hero {
+  background: linear-gradient(135deg, #0A2540 0%, #1E3A5F 50%, #2E5A8F 100%);
+}
+
+.sp-gradient-card {
+  background: linear-gradient(180deg, #252932 0%, #1F232C 100%);
+}
+
+.sp-gradient-success {
+  background: linear-gradient(135deg, #0B5345 0%, #27AE60 100%);
+}
+
+/* Text gradient */
+.sp-text-gradient {
+  background: linear-gradient(135deg, #1E3A5F 0%, #2E5A8F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animation utilities */
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fade-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.animate-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.animate-out {
+  animation: fade-out 0.3s ease-in-out;
+}
+
+/* Glass morphism effect */
+.glass-effect {
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth scroll */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR - Premium Bloomberg Style
+   ============================================ */
+
+/* Scrollbar for WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-darker);
+  border-radius: 10px;
+  border: 1px solid rgba(46, 90, 143, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(46, 90, 143, 0.6) 0%, rgba(30, 58, 95, 0.6) 100%);
+  border-radius: 10px;
+  border: 2px solid var(--gray-darker);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(46, 90, 143, 0.9) 0%, rgba(30, 58, 95, 0.9) 100%);
+  box-shadow: 0 0 8px rgba(46, 90, 143, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #2E5A8F 0%, #1E3A5F 100%);
+}
+
+/* Scrollbar corner */
+::-webkit-scrollbar-corner {
+  background: var(--gray-darker);
+}
+
+/* Scrollbar for Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(46, 90, 143, 0.6) var(--gray-darker);
+}
+
+/* Premium scrollbar for specific elements */
+.premium-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(74, 122, 183, 0.7) 0%, rgba(46, 90, 143, 0.7) 100%);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.premium-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(74, 122, 183, 1) 0%, rgba(46, 90, 143, 1) 100%);
+  box-shadow: 0 0 12px rgba(46, 90, 143, 0.7);
+}

@@ -226,75 +226,26 @@
 }
 
 /* ============================================
-   BUTTONS
+   BUTTONS (DEPRECATED - Using PremiumButton component)
    ============================================ */
 
-.sp-btn {
-  padding: 0.75rem 2rem;
-  border-radius: var(--sp-radius-md);
-  font-weight: var(--sp-font-semibold);
-  font-size: var(--sp-text-base);
-  cursor: pointer;
-  transition: all var(--sp-transition-base);
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-space-1);
-  text-decoration: none;
-}
+/* Old .sp-btn styles removed - now handled by PremiumButton component */
+/* Keeping for backward compatibility with any remaining references */
 
 .sp-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.sp-btn-primary {
-  background: var(--sp-gradient-primary);
-  color: var(--sp-text-primary);
-  box-shadow: var(--sp-shadow-md);
-}
-
-.sp-btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: var(--sp-shadow-glow);
-  color: var(--sp-text-primary);
-  text-decoration: none;
-}
-
-.sp-btn-primary:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.sp-btn-submit {
-  width: 100%;
-  height: 56px;
-  font-size: var(--sp-text-lg);
-}
-
 /* ============================================
-   CHART CARDS
+   CHART CARDS (Updated for PremiumCard)
    ============================================ */
 
 .sp-results-section {
   margin-top: var(--sp-space-6);
 }
 
-.sp-chart-card {
-  background: var(--sp-gradient-card);
-  border: 1px solid var(--sp-border-color);
-  border-radius: var(--sp-radius-lg);
-  padding: var(--sp-space-4);
-  margin-bottom: var(--sp-space-4);
-  box-shadow: var(--sp-shadow-md);
-  transition: all var(--sp-transition-base);
-}
-
-.sp-chart-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--sp-shadow-lg);
-  border-color: var(--sp-primary-light);
-}
+/* .sp-chart-card - REMOVED, now handled by PremiumCard component */
 
 .sp-chart-header {
   margin-bottom: var(--sp-space-3);
@@ -308,21 +259,6 @@
   font-weight: var(--sp-font-semibold);
   color: var(--sp-text-primary);
   margin: 0;
-}
-
-.sp-chart-image-wrapper {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  border-radius: var(--sp-radius-md);
-  background: var(--sp-gray-darker);
-}
-
-.sp-chart-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: var(--sp-radius-md);
 }
 
 /* Chart.js wrapper */

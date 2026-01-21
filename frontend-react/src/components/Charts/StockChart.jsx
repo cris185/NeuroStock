@@ -113,14 +113,14 @@ const StockChart = ({ title, labels, datasets }) => {
   };
 
   return (
-    <div className='sp-chart-card'>
+    <>
       <div className='sp-chart-header'>
         <h3 className='sp-chart-title'>{title}</h3>
       </div>
       <div className='sp-chart-wrapper' style={{ height: '400px' }}>
         <Line options={options} data={data} />
       </div>
-    </div>
+    </>
   );
 };
 
