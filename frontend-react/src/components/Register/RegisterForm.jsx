@@ -2,14 +2,20 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-import { registerSchema } from './registerSchema';
+import { useTranslation } from 'react-i18next';
+import { getRegisterSchema, getPasswordRequirements } from './registerSchema';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faSpinner, faUser, faEnvelope, faLock} from '@fortawesome/free-solid-svg-icons';
+import {faSpinner, faUser, faEnvelope, faLock, faCheck, faXmark} from '@fortawesome/free-solid-svg-icons';
 
 const RegisterForm = () => {
+  const { t } = useTranslation();
   const [serverError, setServerError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [password, setPassword] = useState('');
+
+  const registerSchema = getRegisterSchema(t);
+  const passwordRequirements = getPasswordRequirements(t);
 
   const {
     register,
@@ -33,30 +39,44 @@ const RegisterForm = () => {
       setSuccess(true);
       console.log('Register successful:', response.data);
       reset();
+      setPassword('');
     } catch (error) {
       if (error.response?.data?.username) {
-        setServerError(`Usuario: ${error.response.data.username[0]}`);
+        setServerError(`${t('register.userPrefix')} ${error.response.data.username[0]}`);
       } else if (error.response?.data?.email) {
-        setServerError(`Email: ${error.response.data.email[0]}`);
+        setServerError(`${t('register.emailPrefix')} ${error.response.data.email[0]}`);
+      } else if (error.response?.data?.password) {
+        // Manejar errores de validación de contraseña del backend
+        const passwordErrors = error.response.data.password;
+        if (Array.isArray(passwordErrors)) {
+          setServerError(passwordErrors.join(' '));
+        } else {
+          setServerError(`${t('register.passwordPrefix')} ${passwordErrors}`);
+        }
       } else {
-        setServerError('Error en el registro. Intenta más tarde.');
+        setServerError(t('register.error'));
       }
     }finally{
       setLoading(false);
     }
   };
 
+  // Handler para actualizar el estado del password en tiempo real
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className='sp-form-group'>
-        <label className='sp-form-label' htmlFor='username'>Usuario</label>
+        <label className='sp-form-label' htmlFor='username'>{t('register.usernameLabel')}</label>
         <div className='sp-form-input-wrapper'>
           <FontAwesomeIcon icon={faUser} className='sp-form-input-icon' />
           <input
             type="text"
             id='username'
             className={`sp-form-input sp-form-input-with-icon ${errors.username ? 'sp-form-input-error' : ''}`}
-            placeholder='Ingresa tu usuario'
+            placeholder={t('register.usernamePlaceholder')}
             {...register('username')}
           />
         </div>
@@ -64,14 +84,14 @@ const RegisterForm = () => {
       </div>
 
       <div className='sp-form-group'>
-        <label className='sp-form-label' htmlFor='email'>Email</label>
+        <label className='sp-form-label' htmlFor='email'>{t('register.emailLabel')}</label>
         <div className='sp-form-input-wrapper'>
           <FontAwesomeIcon icon={faEnvelope} className='sp-form-input-icon' />
           <input
             type="email"
             id='email'
             className={`sp-form-input sp-form-input-with-icon ${errors.email ? 'sp-form-input-error' : ''}`}
-            placeholder='Ingresa tu email'
+            placeholder={t('register.emailPlaceholder')}
             {...register('email')}
           />
         </div>
@@ -79,29 +99,50 @@ const RegisterForm = () => {
       </div>
 
       <div className='sp-form-group'>
-        <label className='sp-form-label' htmlFor='password'>Contraseña</label>
+        <label className='sp-form-label' htmlFor='password'>{t('register.passwordLabel')}</label>
         <div className='sp-form-input-wrapper'>
           <FontAwesomeIcon icon={faLock} className='sp-form-input-icon' />
           <input
             type="password"
             id='password'
             className={`sp-form-input sp-form-input-with-icon ${errors.password ? 'sp-form-input-error' : ''}`}
-            placeholder='Crea una contraseña'
-            {...register('password')}
+            placeholder={t('register.passwordPlaceholder')}
+            {...register('password', {
+              onChange: handlePasswordChange
+            })}
           />
         </div>
         {errors.password && <span className='sp-form-error-message'>{errors.password.message}</span>}
+        
+        {/* Indicadores de requisitos de contraseña */}
+        <div className='sp-password-requirements'>
+          {passwordRequirements.map((req) => {
+            const isValid = req.test(password);
+            return (
+              <div 
+                key={req.id} 
+                className={`sp-password-requirement ${isValid ? 'sp-requirement-valid' : 'sp-requirement-invalid'}`}
+              >
+                <FontAwesomeIcon 
+                  icon={isValid ? faCheck : faXmark} 
+                  className='sp-requirement-icon'
+                />
+                <span>{req.label}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className='sp-form-group'>
-        <label className='sp-form-label' htmlFor='confirmPassword'>Confirmar Contraseña</label>
+        <label className='sp-form-label' htmlFor='confirmPassword'>{t('register.confirmPasswordLabel')}</label>
         <div className='sp-form-input-wrapper'>
           <FontAwesomeIcon icon={faLock} className='sp-form-input-icon' />
           <input
             type="password"
             id='confirmPassword'
             className={`sp-form-input sp-form-input-with-icon ${errors.confirmPassword ? 'sp-form-input-error' : ''}`}
-            placeholder='Confirma tu contraseña'
+            placeholder={t('register.confirmPasswordPlaceholder')}
             {...register('confirmPassword')}
           />
         </div>
@@ -109,16 +150,16 @@ const RegisterForm = () => {
       </div>
 
       {serverError && <div className='sp-alert-danger'>{serverError}</div>}
-      {success && <div className='sp-alert-success'>¡Registro exitoso! Ya puedes iniciar sesión.</div>}
+      {success && <div className='sp-alert-success'>{t('register.success')}</div>}
 
       <button type="submit" className='sp-btn-form-submit' disabled={loading}>
         {loading ? (
           <>
             <FontAwesomeIcon icon={faSpinner} spin />
-            Registrando...
+            {t('register.registering')}
           </>
         ) : (
-          'Registrarse'
+          t('register.submit')
         )}
       </button>
     </form>

@@ -1,10 +1,12 @@
 import { TrendingUp } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Empty State Component
  * Displays when no prediction data is available
  */
 const EmptyState = ({ onTickerSelect }) => {
+  const { t } = useTranslation();
   const popularTickers = ['AAPL', 'TSLA', 'GOOGL', 'MSFT'];
 
   const containerStyle = {
@@ -94,12 +96,12 @@ const EmptyState = ({ onTickerSelect }) => {
         />
       </div>
 
-      <h3 style={headingStyle}>No hay predicciones aún</h3>
-      <p style={subtitleStyle}>Busca un ticker para comenzar el análisis</p>
+      <h3 style={headingStyle}>{t('emptyState.title')}</h3>
+      <p style={subtitleStyle}>{t('emptyState.subtitle')}</p>
 
       <div style={{ marginBottom: '1rem' }}>
         <span style={{ fontSize: '0.875rem', color: '#8A92A5', fontWeight: '500' }}>
-          Prueba con:
+          {t('emptyState.tryWith')}
         </span>
       </div>
 

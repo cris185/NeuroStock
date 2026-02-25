@@ -1,8 +1,10 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { X, LogIn, UserPlus, LayoutDashboard, LogOut } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import LanguageSelector from './LanguageSelector';
 
 /**
  * Mobile Menu Component with glassmorphic design
@@ -15,20 +17,22 @@ import { cn } from '../../lib/utils';
  * @param {Function} props.handleLogout - Logout handler
  */
 const MobileMenu = ({ isOpen, onClose, isLoggedIn, handleLogout }) => {
+  const { t } = useTranslation();
+
   const menuItems = isLoggedIn
     ? [
-        { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+        { to: '/dashboard', icon: LayoutDashboard, label: t('mobileMenu.dashboard') },
         {
           to: '#',
           icon: LogOut,
-          label: 'Logout',
+          label: t('mobileMenu.logout'),
           onClick: handleLogout,
           variant: 'danger',
         },
       ]
     : [
-        { to: '/login', icon: LogIn, label: 'Login' },
-        { to: '/register', icon: UserPlus, label: 'Register', variant: 'primary' },
+        { to: '/login', icon: LogIn, label: t('mobileMenu.login') },
+        { to: '/register', icon: UserPlus, label: t('mobileMenu.register'), variant: 'primary' },
       ];
 
   return (
@@ -65,14 +69,14 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, handleLogout }) => {
                     {/* Header */}
                     <div className="flex items-center justify-between px-6 py-6 border-b border-white/10">
                       <Dialog.Title className="text-lg font-semibold text-white font-display">
-                        Menu
+                        {t('mobileMenu.title')}
                       </Dialog.Title>
                       <button
                         type="button"
                         className="rounded-lg p-2 text-gray-lighter hover:bg-primary/10 hover:text-white transition-all duration-200"
                         onClick={onClose}
                       >
-                        <span className="sr-only">Close menu</span>
+                        <span className="sr-only">{t('mobileMenu.closeMenu')}</span>
                         <X className="h-6 w-6" aria-hidden="true" />
                       </button>
                     </div>
@@ -131,8 +135,11 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, handleLogout }) => {
 
                     {/* Footer */}
                     <div className="border-t border-white/10 px-6 py-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <LanguageSelector />
+                      </div>
                       <p className="text-xs text-text-muted text-center">
-                        NeuroStock Portal &copy; {new Date().getFullYear()}
+                        {t('mobileMenu.footer', { year: new Date().getFullYear() })}
                       </p>
                     </div>
                   </div>

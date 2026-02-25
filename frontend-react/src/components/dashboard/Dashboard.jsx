@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import axiosInstance from '../axiosInstance';
 import { TrendingUp, Loader2, Calculator, CheckCircle2, Activity } from 'lucide-react';
 import StockChart from '../Charts/StockChart';
@@ -9,6 +10,7 @@ import EmptyState from '../ui/EmptyState';
 import MetricCard from '../ui/MetricCard';
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const [ticker, setTicker] = useState('');
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
@@ -52,7 +54,7 @@ const Dashboard = () => {
       console.error('There was an error making the API request:', error);
       setError(
         error.response?.data?.error ||
-          'Error al obtener predicciones. Intenta con otro ticker.'
+          t('dashboard.analyzeError')
       );
       setPredictionData(null);
     } finally {
@@ -83,7 +85,7 @@ const Dashboard = () => {
       console.log('Future predictions received:', response.data.future_predictions);
     } catch (error) {
       console.error('Error generating future predictions:', error);
-      setError(error.response?.data?.error || 'Error al generar predicciones futuras');
+      setError(error.response?.data?.error || t('dashboard.futureError'));
     } finally {
       setLoadingFuture(false);
     }
@@ -120,9 +122,9 @@ const Dashboard = () => {
   return (
     <div className="sp-dashboard container">
       <div className="sp-dashboard-header">
-        <h1 className="sp-dashboard-title">Panel de Predicciones</h1>
+        <h1 className="sp-dashboard-title">{t('dashboard.title')}</h1>
         <p className="sp-dashboard-subtitle">
-          Analiza y predice el comportamiento de acciones con IA
+          {t('dashboard.subtitle')}
         </p>
       </div>
 
@@ -131,9 +133,9 @@ const Dashboard = () => {
         borderGradient="linear-gradient(90deg, #1E3A5F 0%, #2E5A8F 100%)"
         style={{ marginBottom: '2rem' }}
       >
-        <h2 className="sp-search-heading">Analiza tu Acción Favorita</h2>
+        <h2 className="sp-search-heading">{t('dashboard.analyzeTitle')}</h2>
         <p className="sp-search-subheading">
-          Ingresa el símbolo del ticker para obtener predicciones impulsadas por IA
+          {t('dashboard.analyzeSubtitle')}
         </p>
 
         {error && <div className="sp-alert sp-alert-error">{error}</div>}
@@ -146,7 +148,7 @@ const Dashboard = () => {
             <input
               type="text"
               className="sp-ticker-input"
-              placeholder="Ej: AAPL, TSLA, GOOGL, AMZN"
+              placeholder={t('dashboard.tickerPlaceholder')}
               value={ticker}
               onChange={(e) => setTicker(e.target.value.toUpperCase())}
               required
@@ -167,19 +169,19 @@ const Dashboard = () => {
             {loading ? (
               <>
                 <Loader2 style={{ width: '1rem', height: '1rem' }} className="sp-spin" />
-                <span>Analizando datos...</span>
+                <span>{t('dashboard.analyzing')}</span>
               </>
             ) : (
               <>
                 <TrendingUp style={{ width: '1rem', height: '1rem' }} />
-                <span>Analizar Acción</span>
+                <span>{t('dashboard.analyzeButton')}</span>
               </>
             )}
           </PremiumButton>
         </form>
 
         <div className="sp-popular-tickers">
-          <span className="sp-popular-label">Populares:</span>
+          <span className="sp-popular-label">{t('dashboard.popular')}</span>
           {['AAPL', 'TSLA', 'GOOGL', 'MSFT'].map((stock) => (
             <button
               key={stock}
@@ -225,11 +227,11 @@ const Dashboard = () => {
             <div style={{ animation: 'fadeInUp 0.6s ease-out 0ms backwards' }}>
               <PremiumCard borderGradient="linear-gradient(90deg, #1E3A5F 0%, #2E5A8F 100%)">
                 <StockChart
-                  title={`Precio de Cierre Histórico - ${predictionData.ticker}`}
+                  title={t('dashboard.chartClose', { ticker: predictionData.ticker })}
                   labels={predictionData.historical_data.dates}
                   datasets={[
                     {
-                      label: 'Precio de Cierre',
+                      label: t('dashboard.chartCloseLabel'),
                       data: predictionData.historical_data.close_prices,
                       borderColor: '#2E5A8F',
                       backgroundColor: 'rgba(46, 90, 143, 0.1)',
@@ -244,17 +246,17 @@ const Dashboard = () => {
             <div style={{ animation: 'fadeInUp 0.6s ease-out 100ms backwards' }}>
               <PremiumCard borderGradient="linear-gradient(90deg, #1E3A5F 0%, #2E5A8F 100%)">
                 <StockChart
-                  title={`Precio de Cierre con MA100 - ${predictionData.ticker}`}
+                  title={t('dashboard.chartMA100', { ticker: predictionData.ticker })}
                   labels={predictionData.historical_data.dates}
                   datasets={[
                     {
-                      label: 'Precio de Cierre',
+                      label: t('dashboard.chartCloseLabel'),
                       data: predictionData.historical_data.close_prices,
                       borderColor: '#2E5A8F',
                       backgroundColor: 'transparent',
                     },
                     {
-                      label: 'MA100',
+                      label: t('dashboard.chartMA100Label'),
                       data: predictionData.ma_data.ma100,
                       borderColor: '#27AE60',
                       backgroundColor: 'transparent',
@@ -268,23 +270,23 @@ const Dashboard = () => {
             <div style={{ animation: 'fadeInUp 0.6s ease-out 200ms backwards' }}>
               <PremiumCard borderGradient="linear-gradient(90deg, #1E3A5F 0%, #2E5A8F 100%)">
                 <StockChart
-                  title={`Precio de Cierre con MA100 y MA200 - ${predictionData.ticker}`}
+                  title={t('dashboard.chartMA200', { ticker: predictionData.ticker })}
                   labels={predictionData.historical_data.dates}
                   datasets={[
                     {
-                      label: 'Precio de Cierre',
+                      label: t('dashboard.chartCloseLabel'),
                       data: predictionData.historical_data.close_prices,
                       borderColor: '#2E5A8F',
                       backgroundColor: 'transparent',
                     },
                     {
-                      label: 'MA100',
+                      label: t('dashboard.chartMA100Label'),
                       data: predictionData.ma_data.ma100,
                       borderColor: '#27AE60',
                       backgroundColor: 'transparent',
                     },
                     {
-                      label: 'MA200',
+                      label: t('dashboard.chartMA200Label'),
                       data: predictionData.ma_data.ma200,
                       borderColor: '#F39C12',
                       backgroundColor: 'transparent',
@@ -298,7 +300,7 @@ const Dashboard = () => {
             <div style={{ animation: 'fadeInUp 0.6s ease-out 300ms backwards' }}>
               <PremiumCard borderGradient="linear-gradient(90deg, #9B59B6 0%, #8E44AD 100%)">
                 <StockChart
-                  title={`Predicción Backtesting${futurePredictions ? ' y Futura' : ''} - ${
+                  title={`${t('dashboard.chartPrediction')}${futurePredictions ? ' ' + t('dashboard.chartFuture') : ''} - ${
                     predictionData.ticker
                   }`}
                   labels={[
@@ -308,7 +310,7 @@ const Dashboard = () => {
                   datasets={[
                     // Dataset 1: Precios reales (solo backtesting)
                     {
-                      label: 'Precio Real',
+                      label: t('dashboard.chartRealPrice'),
                       data: [
                         ...predictionData.backtesting.test_prices,
                         ...Array(futurePredictions?.dates.length || 0).fill(null),
@@ -319,7 +321,7 @@ const Dashboard = () => {
                     },
                     // Dataset 2: Predicción backtesting
                     {
-                      label: 'Predicción LSTM (Backtesting)',
+                      label: t('dashboard.chartLSTMPrediction'),
                       data: [
                         ...predictionData.backtesting.predicted_prices,
                         ...Array(futurePredictions?.dates.length || 0).fill(null),
@@ -333,7 +335,7 @@ const Dashboard = () => {
                     ...(futurePredictions
                       ? [
                           {
-                            label: 'Predicción Futura',
+                            label: t('dashboard.chartFuturePrediction'),
                             data: [
                               ...Array(predictionData.backtesting.test_dates.length).fill(null),
                               ...futurePredictions.predicted_prices,
@@ -349,7 +351,7 @@ const Dashboard = () => {
                     ...(futurePredictions
                       ? [
                           {
-                            label: 'Límite Superior (95% CI)',
+                            label: t('dashboard.chartUpperBound'),
                             data: [
                               ...Array(predictionData.backtesting.test_dates.length).fill(null),
                               ...futurePredictions.upper_bound,
@@ -362,7 +364,7 @@ const Dashboard = () => {
                             pointRadius: 0,
                           },
                           {
-                            label: 'Límite Inferior (95% CI)',
+                            label: t('dashboard.chartLowerBound'),
                             data: [
                               ...Array(predictionData.backtesting.test_dates.length).fill(null),
                               ...futurePredictions.lower_bound,
@@ -388,14 +390,14 @@ const Dashboard = () => {
               borderGradient="linear-gradient(90deg, #9B59B6 0%, #8E44AD 100%)"
               style={{ marginBottom: '2rem' }}
             >
-              <h2 className="sp-future-heading">Predicciones Futuras</h2>
+              <h2 className="sp-future-heading">{t('dashboard.futurePredictions')}</h2>
               <p className="sp-future-description">
-                Genera predicciones a futuro con intervalos de confianza del 95%
+                {t('dashboard.futurePredictionsDesc')}
               </p>
 
               <div className="sp-future-controls">
                 <div className="sp-form-group sp-future-input-group">
-                  <label className="sp-form-label">Días a Predecir (1-365)</label>
+                  <label className="sp-form-label">{t('dashboard.daysToPredict')}</label>
                   <div className="sp-future-input-wrapper">
                     <input
                       type="number"
@@ -404,9 +406,9 @@ const Dashboard = () => {
                       className="sp-form-input sp-future-input"
                       value={futureDaysInput}
                       onChange={(e) => setFutureDaysInput(e.target.value)}
-                      placeholder="Ej: 30, 60, 90"
+                      placeholder={t('dashboard.daysPlaceholder')}
                     />
-                    <span className="sp-future-input-suffix">días</span>
+                    <span className="sp-future-input-suffix">{t('common.days')}</span>
                   </div>
                 </div>
 
@@ -426,12 +428,12 @@ const Dashboard = () => {
                   {loadingFuture ? (
                     <>
                       <Loader2 style={{ width: '1rem', height: '1rem' }} className="sp-spin" />
-                      Generando...
+                      {t('dashboard.generating')}
                     </>
                   ) : (
                     <>
                       <TrendingUp style={{ width: '1rem', height: '1rem' }} />
-                      Generar Predicción
+                      {t('dashboard.generateButton')}
                     </>
                   )}
                 </PremiumButton>
@@ -457,7 +459,7 @@ const Dashboard = () => {
                 textAlign: 'center',
               }}
             >
-              Métricas de Precisión del Modelo (Backtesting)
+              {t('dashboard.metricsTitle')}
             </h2>
 
             <div
@@ -473,13 +475,13 @@ const Dashboard = () => {
                 icon={Calculator}
                 name="MSE"
                 value={predictionData.backtesting.metrics.mse.toFixed(2)}
-                description="Mean Squared Error - Promedio de errores al cuadrado"
+                description={t('dashboard.mseDescription')}
                 interpretation={
                   predictionData.backtesting.metrics.mse < 5
-                    ? 'Excelente'
+                    ? t('dashboard.excellent')
                     : predictionData.backtesting.metrics.mse < 15
-                    ? 'Bueno'
-                    : 'Regular'
+                    ? t('dashboard.good')
+                    : t('dashboard.regular')
                 }
                 status="warning"
               />
@@ -489,13 +491,13 @@ const Dashboard = () => {
                 icon={Activity}
                 name="RMSE"
                 value={predictionData.backtesting.metrics.rmse.toFixed(2)}
-                description="Root Mean Squared Error - Desviación estándar de errores"
+                description={t('dashboard.rmseDescription')}
                 interpretation={
                   predictionData.backtesting.metrics.rmse < 2.5
-                    ? 'Excelente'
+                    ? t('dashboard.excellent')
                     : predictionData.backtesting.metrics.rmse < 5
-                    ? 'Bueno'
-                    : 'Regular'
+                    ? t('dashboard.good')
+                    : t('dashboard.regular')
                 }
                 status="info"
               />
@@ -505,15 +507,15 @@ const Dashboard = () => {
                 icon={CheckCircle2}
                 name="R² Score"
                 value={predictionData.backtesting.metrics.r2.toFixed(4)}
-                description="Coeficiente de Determinación - Calidad del ajuste del modelo"
+                description={t('dashboard.r2Description')}
                 interpretation={
                   predictionData.backtesting.metrics.r2 > 0.95
-                    ? 'Excelente'
+                    ? t('dashboard.excellent')
                     : predictionData.backtesting.metrics.r2 > 0.9
-                    ? 'Muy Bueno'
+                    ? t('dashboard.veryGood')
                     : predictionData.backtesting.metrics.r2 > 0.8
-                    ? 'Bueno'
-                    : 'Regular'
+                    ? t('dashboard.good')
+                    : t('dashboard.regular')
                 }
                 status="success"
               />

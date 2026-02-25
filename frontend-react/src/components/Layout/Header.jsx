@@ -1,11 +1,13 @@
 import { useState, useCallback, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { TrendingUp, Menu } from 'lucide-react';
 import { AuthContext } from '../Hooks/AuthProvider';
 import { useScrollBehavior } from '../../hooks/useScrollBehavior';
 import PremiumButton from '../ui/PremiumButton';
 import MobileMenu from './MobileMenu';
 import UserMenu from './UserMenu';
+import LanguageSelector from './LanguageSelector';
 
 /**
  * Premium Header Component with Bloomberg Terminal-inspired design
@@ -17,6 +19,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { isScrolled } = useScrollBehavior(20);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
 
   // Handlers
   const handleLogout = useCallback(() => {
@@ -104,7 +107,7 @@ const Header = () => {
                     backgroundClip: 'text',
                   }}
                 >
-                  NeuroStock
+                  {t('header.logoTitle')}
                 </span>
                 <span style={{
                   fontSize: '0.625rem',
@@ -112,7 +115,7 @@ const Header = () => {
                   marginTop: '-0.25rem',
                   fontFamily: 'Inter, sans-serif',
                 }}>
-                  Stock Prediction Portal
+                  {t('header.logoSubtitle')}
                 </span>
               </div>
             </Link>
@@ -132,7 +135,7 @@ const Header = () => {
                     variant="secondary"
                     onClick={() => navigate('/dashboard')}
                   >
-                    Dashboard
+                    {t('header.dashboard')}
                   </PremiumButton>
                   <UserMenu handleLogout={handleLogout} />
                 </>
@@ -142,16 +145,17 @@ const Header = () => {
                     variant="secondary"
                     onClick={() => navigate('/login')}
                   >
-                    Login
+                    {t('header.login')}
                   </PremiumButton>
                   <PremiumButton
                     variant="primary"
                     onClick={() => navigate('/register')}
                   >
-                    Register
+                    {t('header.register')}
                   </PremiumButton>
                 </>
               )}
+              <LanguageSelector />
             </div>
 
             {/* Mobile Menu Button - Only visible on mobile */}
@@ -175,7 +179,7 @@ const Header = () => {
                 e.currentTarget.style.backgroundColor = 'transparent';
                 e.currentTarget.style.color = '#B8BFCC';
               }}
-              aria-label="Open menu"
+              aria-label={t('header.openMenu')}
             >
               <Menu style={{ width: '1.5rem', height: '1.5rem' }} />
             </button>

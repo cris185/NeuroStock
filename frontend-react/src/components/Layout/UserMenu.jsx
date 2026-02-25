@@ -1,12 +1,14 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { ChevronDown, LayoutDashboard, User, Settings, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 /**
  * User Menu Dropdown Component
  * Uses Radix UI for accessible dropdown with glassmorphic design
  */
 const UserMenu = ({ handleLogout }) => {
+  const { t } = useTranslation();
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -74,12 +76,12 @@ const UserMenu = ({ handleLogout }) => {
               color: '#FFFFFF',
               fontSize: '0.875rem',
               margin: 0,
-            }}>User</p>
+            }}>{t('userMenu.user')}</p>
             <p style={{
               fontSize: '0.75rem',
               color: '#8A92A5',
               margin: 0,
-            }}>user@neurostock.com</p>
+            }}>{t('userMenu.email')}</p>
           </div>
 
           {/* Dashboard */}
@@ -109,7 +111,7 @@ const UserMenu = ({ handleLogout }) => {
               }}
             >
               <LayoutDashboard style={{ width: '1rem', height: '1rem' }} />
-              <span>Dashboard</span>
+              <span>{t('userMenu.dashboard')}</span>
             </Link>
           </DropdownMenu.Item>
 
@@ -140,7 +142,7 @@ const UserMenu = ({ handleLogout }) => {
               }}
             >
               <User style={{ width: '1rem', height: '1rem' }} />
-              <span>Profile</span>
+              <span>{t('userMenu.profile')}</span>
             </Link>
           </DropdownMenu.Item>
 
@@ -171,7 +173,7 @@ const UserMenu = ({ handleLogout }) => {
               }}
             >
               <Settings style={{ width: '1rem', height: '1rem' }} />
-              <span>Settings</span>
+              <span>{t('userMenu.settings')}</span>
             </Link>
           </DropdownMenu.Item>
 
@@ -211,7 +213,7 @@ const UserMenu = ({ handleLogout }) => {
               }}
             >
               <LogOut style={{ width: '1rem', height: '1rem' }} />
-              <span>Logout</span>
+              <span>{t('userMenu.logout')}</span>
             </button>
           </DropdownMenu.Item>
         </DropdownMenu.Content>

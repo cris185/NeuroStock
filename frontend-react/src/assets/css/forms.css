@@ -188,6 +188,51 @@
 }
 
 /* ============================================
+   PASSWORD REQUIREMENTS
+   ============================================ */
+
+.sp-password-requirements {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--sp-radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sp-password-requirement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.sp-requirement-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.sp-requirement-valid {
+  color: var(--sp-success, #27ae60);
+}
+
+.sp-requirement-valid .sp-requirement-icon {
+  color: var(--sp-success, #27ae60);
+}
+
+.sp-requirement-invalid {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.sp-requirement-invalid .sp-requirement-icon {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ============================================
    SUBMIT BUTTON
    ============================================ */
 
@@ -275,6 +320,78 @@
   color: var(--sp-text-secondary);
   cursor: pointer;
   margin-bottom: 0;
+}
+
+/* ============================================
+   FORGOT PASSWORD LINK
+   ============================================ */
+
+.sp-form-forgot-link {
+  text-align: right;
+  margin-top: 6px;
+}
+
+.sp-form-forgot-link .sp-form-link {
+  font-size: var(--sp-text-xs);
+  color: var(--sp-primary-light);
+  text-decoration: none;
+  transition: color var(--sp-transition-base);
+}
+
+.sp-form-forgot-link .sp-form-link:hover {
+  color: var(--sp-accent-orange);
+  text-decoration: underline;
+}
+
+/* ============================================
+   PASSWORD TOGGLE BUTTON
+   ============================================ */
+
+.sp-password-toggle {
+  position: absolute;
+  right: var(--sp-space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--sp-text-muted);
+  cursor: pointer;
+  padding: 4px 6px;
+  transition: color var(--sp-transition-base);
+}
+
+.sp-password-toggle:hover {
+  color: var(--sp-text-primary);
+}
+
+/* ============================================
+   PASSWORD MATCH INDICATOR
+   ============================================ */
+
+.sp-password-match {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  font-size: var(--sp-text-sm);
+}
+
+.sp-password-match.valid {
+  color: var(--sp-success, #27ae60);
+}
+
+.sp-password-match.invalid {
+  color: var(--sp-error, #e74c3c);
+}
+
+/* ============================================
+   SUCCESS/ERROR ICONS
+   ============================================ */
+
+.sp-success-icon,
+.sp-error-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--sp-space-4);
 }
 
 /* ============================================
