@@ -12,6 +12,14 @@ urlpatterns = [
     
     path('protected-view/', UserViews.ProtectedView.as_view(), name='protected-view'),
     
+    # User Profile
+    path('user/profile/', UserViews.UserProfileView.as_view(), name='user-profile'),
+    
+    # Password Reset
+    path('password-reset/request/', UserViews.PasswordResetRequestView.as_view(), name='password-reset-request'),
+    path('password-reset/verify/', UserViews.PasswordResetVerifyTokenView.as_view(), name='password-reset-verify'),
+    path('password-reset/confirm/', UserViews.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
+    
     # Prediction API
     path('predict/', StockPredictionAPIView.as_view(), name='stock-prediction'),
 ]

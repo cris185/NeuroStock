@@ -148,3 +148,16 @@ SIMPLE_JWT ={
 #Media files configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Email Configuration (SendGrid)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@em7361.cholabs.dedyn.io')
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:5173')
+
+# Password Reset Token Expiration (hours)
+PASSWORD_RESET_TIMEOUT = 3600  # 1 hour in seconds
