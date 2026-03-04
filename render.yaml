@@ -11,7 +11,7 @@ services:
     runtime: python
     plan: free              # onnxruntime cabe en 512MB sin problema
     rootDir: backend-drf
-    buildCommand: chmod +x build.sh && ./build.sh
+    buildCommand: bash build.sh
     startCommand: gunicorn stock_prediction_main.wsgi:application --workers 2 --timeout 120
     envVars:
       - key: DATABASE_URL
