@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner, faLock, faCheckCircle, faTimesCircle, faArrowLeft, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
+import axiosInstance from '../axiosInstance'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -33,7 +33,7 @@ const ResetPassword = () => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/v1/password-reset/verify/', { token });
+        const response = await axiosInstance.post('password-reset/verify/', { token });
         setTokenValid(response.data.valid);
       } catch (error) {
         console.error('Token validation error:', error);
@@ -82,7 +82,7 @@ const ResetPassword = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/v1/password-reset/confirm/', {
+      const response = await axiosInstance.post('password-reset/confirm/', {
         token,
         password,
         password_confirm: confirmPassword

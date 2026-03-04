@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner, faEnvelope, faArrowLeft, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
+import axiosInstance from '../axiosInstance'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -19,7 +19,7 @@ const ForgotPassword = () => {
     setSuccess(false);
 
     try {
-      await axios.post('http://127.0.0.1:8000/api/v1/password-reset/request/', { email });
+      await axiosInstance.post('password-reset/request/', { email });
       setSuccess(true);
     } catch (error) {
       console.error('Password Reset Error:', error.response?.data);

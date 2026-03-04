@@ -40,7 +40,7 @@ services:
     name: neurostock-frontend
     runtime: static
     rootDir: frontend-react
-    buildCommand: npm install && VITE_BACKEND_BASE_API=https://neurostock-backend.onrender.com/api/v1/ VITE_BACKEND_ROOT=https://neurostock-backend.onrender.com npm run build
+    buildCommand: npm install && npm run build
     staticPublishPath: dist
     routes:
       - type: rewrite

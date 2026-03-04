@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 import { useTranslation } from 'react-i18next';
 import { getRegisterSchema, getPasswordRequirements } from './registerSchema';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,7 +31,7 @@ const RegisterForm = () => {
     setSuccess(false);
     setLoading(true);
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/v1/register/', {
+      const response = await axiosInstance.post('register/', {
         username: data.username,
         email: data.email,
         password: data.password,
