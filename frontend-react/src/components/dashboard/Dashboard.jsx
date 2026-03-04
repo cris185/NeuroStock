@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import axiosInstance from '../axiosInstance';
-import { TrendingUp, Loader2, Calculator, CheckCircle2, Activity } from 'lucide-react';
+import { TrendingUp, Loader2, Calculator, CheckCircle2, Activity, Target, Shield, BarChart2 } from 'lucide-react';
 import StockChart from '../Charts/StockChart';
 import PremiumButton from '../ui/PremiumButton';
 import PremiumCard from '../ui/PremiumCard';
@@ -19,12 +19,12 @@ const Dashboard = () => {
   const [futureDaysInput, setFutureDaysInput] = useState('30');
   const [futurePredictions, setFuturePredictions] = useState(null);
   const [loadingFuture, setLoadingFuture] = useState(false);
+  const futureChartRef = useRef(null);
 
   useEffect(() => {
     const fetchProtectedData = async () => {
       try {
         const response = await axiosInstance.get('/protected-view/');
-        //console.log('Success:', response.data);
       } catch (error) {
         console.error('Error fetching  data:', error);
       }
@@ -36,15 +36,13 @@ const Dashboard = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setFuturePredictions(null); // Reset future predictions when searching new ticker
+    setFuturePredictions(null);
     try {
       const response = await axiosInstance.post('/predict/', {
         ticker: ticker,
-        future_days: 0, // Initial request is backtesting only
+        future_days: 0,
       });
       console.log('Prediction data received:', response.data);
-
-      // Store entire response data for charts
       setPredictionData(response.data);
 
       if (response.data.error) {
@@ -83,6 +81,11 @@ const Dashboard = () => {
       setFuturePredictions(response.data.future_predictions);
       setFutureDays(days);
       console.log('Future predictions received:', response.data.future_predictions);
+
+      // Scroll to the future chart after render
+      setTimeout(() => {
+        futureChartRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     } catch (error) {
       console.error('Error generating future predictions:', error);
       setError(error.response?.data?.error || t('dashboard.futureError'));
@@ -91,9 +94,8 @@ const Dashboard = () => {
     }
   };
 
-  // Ticker chip styles with hover handlers
   const tickerChipStyle = {
-    padding: '0.5rem 1rem',
+    padding: '0.5rem 1.5rem',
     background: 'rgba(46, 90, 143, 0.1)',
     border: '1px solid rgba(46, 90, 143, 0.2)',
     borderRadius: '0.5rem',
@@ -148,6 +150,12 @@ const Dashboard = () => {
             <input
               type="text"
               className="sp-ticker-input"
+              style={{
+                border: '2px solid #4A7AB7',
+                borderRadius: '0.75rem',
+                boxShadow: '0 0 0 4px rgba(46, 90, 143, 0.15), inset 0 2px 4px rgba(0,0,0,0.1)',
+                background: 'rgba(46, 90, 143, 0.05)',
+              }}
               placeholder={t('dashboard.tickerPlaceholder')}
               value={ticker}
               onChange={(e) => setTicker(e.target.value.toUpperCase())}
@@ -180,7 +188,8 @@ const Dashboard = () => {
           </PremiumButton>
         </form>
 
-        <div className="sp-popular-tickers">
+        {/* Popular tickers — extra top margin so they don't crowd the button */}
+        <div className="sp-popular-tickers" style={{ marginTop: '1.75rem', gap: '0.75rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '0.5rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
           <span className="sp-popular-label">{t('dashboard.popular')}</span>
           {['AAPL', 'TSLA', 'GOOGL', 'MSFT'].map((stock) => (
             <button
@@ -214,6 +223,7 @@ const Dashboard = () => {
       {/* Results Section */}
       {predictionData && !loading && (
         <>
+          {/* ── Charts 1-4 ─────────────────────────────────────────── */}
           <div
             className="charts-grid"
             style={{
@@ -296,96 +306,108 @@ const Dashboard = () => {
               </PremiumCard>
             </div>
 
-            {/* Chart 4: Prediction vs Real Price + Future Predictions */}
+            {/* Chart 4: Backtesting — Prediction vs Real Price (no future data here) */}
             <div style={{ animation: 'fadeInUp 0.6s ease-out 300ms backwards' }}>
               <PremiumCard borderGradient="linear-gradient(90deg, #9B59B6 0%, #8E44AD 100%)">
                 <StockChart
-                  title={`${t('dashboard.chartPrediction')}${futurePredictions ? ' ' + t('dashboard.chartFuture') : ''} - ${
-                    predictionData.ticker
-                  }`}
-                  labels={[
-                    ...predictionData.backtesting.test_dates,
-                    ...(futurePredictions?.dates || []),
-                  ]}
+                  title={`${t('dashboard.chartPrediction')} - ${predictionData.ticker}`}
+                  labels={predictionData.backtesting.test_dates}
                   datasets={[
-                    // Dataset 1: Precios reales (solo backtesting)
                     {
                       label: t('dashboard.chartRealPrice'),
-                      data: [
-                        ...predictionData.backtesting.test_prices,
-                        ...Array(futurePredictions?.dates.length || 0).fill(null),
-                      ],
+                      data: predictionData.backtesting.test_prices,
                       borderColor: '#2E5A8F',
                       borderWidth: 2,
                       pointRadius: 0,
                     },
-                    // Dataset 2: Predicción backtesting
                     {
                       label: t('dashboard.chartLSTMPrediction'),
-                      data: [
-                        ...predictionData.backtesting.predicted_prices,
-                        ...Array(futurePredictions?.dates.length || 0).fill(null),
-                      ],
+                      data: predictionData.backtesting.predicted_prices,
                       borderColor: '#E74C3C',
                       borderDash: [5, 5],
                       borderWidth: 2,
                       pointRadius: 0,
                     },
-                    // Dataset 3: Predicción futura (si existe)
-                    ...(futurePredictions
-                      ? [
-                          {
-                            label: t('dashboard.chartFuturePrediction'),
-                            data: [
-                              ...Array(predictionData.backtesting.test_dates.length).fill(null),
-                              ...futurePredictions.predicted_prices,
-                            ],
-                            borderColor: '#9B59B6',
-                            borderDash: [8, 4],
-                            borderWidth: 2,
-                            pointRadius: 3,
-                          },
-                        ]
-                      : []),
-                    // Dataset 4 y 5: Bandas de confianza (si existen)
-                    ...(futurePredictions
-                      ? [
-                          {
-                            label: t('dashboard.chartUpperBound'),
-                            data: [
-                              ...Array(predictionData.backtesting.test_dates.length).fill(null),
-                              ...futurePredictions.upper_bound,
-                            ],
-                            borderColor: 'rgba(155, 89, 182, 0.3)',
-                            backgroundColor: 'rgba(155, 89, 182, 0.15)',
-                            fill: '+1',
-                            borderWidth: 1,
-                            borderDash: [2, 2],
-                            pointRadius: 0,
-                          },
-                          {
-                            label: t('dashboard.chartLowerBound'),
-                            data: [
-                              ...Array(predictionData.backtesting.test_dates.length).fill(null),
-                              ...futurePredictions.lower_bound,
-                            ],
-                            borderColor: 'rgba(155, 89, 182, 0.3)',
-                            backgroundColor: 'rgba(155, 89, 182, 0.15)',
-                            fill: false,
-                            borderWidth: 1,
-                            borderDash: [2, 2],
-                            pointRadius: 0,
-                          },
-                        ]
-                      : []),
                   ]}
                 />
               </PremiumCard>
             </div>
           </div>
 
-          {/* Future Prediction Section */}
-          <div style={{ animation: 'fadeInUp 0.6s ease-out 400ms backwards' }}>
+          {/* ── Model Accuracy Metrics (Backtesting) ───────────────── */}
+          <div style={{ animation: 'fadeInUp 0.6s ease-out 400ms backwards', marginBottom: '2rem' }}>
+            <h2
+              style={{
+                fontFamily: 'Poppins, sans-serif',
+                fontSize: '1.875rem',
+                fontWeight: '700',
+                color: '#FFFFFF',
+                marginBottom: '1.5rem',
+                textAlign: 'center',
+              }}
+            >
+              {t('dashboard.metricsTitle')}
+            </h2>
+
+            <div
+              className="metrics-grid"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '1.5rem',
+              }}
+            >
+              <MetricCard
+                icon={Calculator}
+                name="MSE"
+                value={predictionData.backtesting.metrics.mse.toFixed(2)}
+                description={t('dashboard.mseDescription')}
+                interpretation={
+                  predictionData.backtesting.metrics.mse < 5
+                    ? t('dashboard.excellent')
+                    : predictionData.backtesting.metrics.mse < 15
+                    ? t('dashboard.good')
+                    : t('dashboard.regular')
+                }
+                status="warning"
+              />
+
+              <MetricCard
+                icon={Activity}
+                name="RMSE"
+                value={predictionData.backtesting.metrics.rmse.toFixed(2)}
+                description={t('dashboard.rmseDescription')}
+                interpretation={
+                  predictionData.backtesting.metrics.rmse < 2.5
+                    ? t('dashboard.excellent')
+                    : predictionData.backtesting.metrics.rmse < 5
+                    ? t('dashboard.good')
+                    : t('dashboard.regular')
+                }
+                status="info"
+              />
+
+              <MetricCard
+                icon={CheckCircle2}
+                name="R² Score"
+                value={predictionData.backtesting.metrics.r2.toFixed(4)}
+                description={t('dashboard.r2Description')}
+                interpretation={
+                  predictionData.backtesting.metrics.r2 > 0.95
+                    ? t('dashboard.excellent')
+                    : predictionData.backtesting.metrics.r2 > 0.9
+                    ? t('dashboard.veryGood')
+                    : predictionData.backtesting.metrics.r2 > 0.8
+                    ? t('dashboard.good')
+                    : t('dashboard.regular')
+                }
+                status="success"
+              />
+            </div>
+          </div>
+
+          {/* ── Future Prediction Section ───────────────────────────── */}
+          <div style={{ animation: 'fadeInUp 0.6s ease-out 500ms backwards' }}>
             <PremiumCard
               borderGradient="linear-gradient(90deg, #9B59B6 0%, #8E44AD 100%)"
               style={{ marginBottom: '2rem' }}
@@ -447,84 +469,123 @@ const Dashboard = () => {
             </PremiumCard>
           </div>
 
-          {/* Metrics Section - Premium Cards */}
-          <div style={{ animation: 'fadeInUp 0.6s ease-out 500ms backwards' }}>
-            <h2
-              style={{
-                fontFamily: 'Poppins, sans-serif',
-                fontSize: '1.875rem',
-                fontWeight: '700',
-                color: '#FFFFFF',
-                marginBottom: '1.5rem',
-                textAlign: 'center',
-              }}
-            >
-              {t('dashboard.metricsTitle')}
-            </h2>
+          {/* ── Chart 5 + Future Metrics (shown after generation) ───── */}
+          {futurePredictions && (
+            <div ref={futureChartRef}>
+              {/* Chart 5: Future Predictions */}
+              <div style={{ animation: 'fadeInUp 0.5s ease-out', marginBottom: '2rem' }}>
+                <PremiumCard borderGradient="linear-gradient(90deg, #9B59B6 0%, #8E44AD 100%)">
+                  <StockChart
+                    title={`${t('dashboard.chartFuturePrediction')} (${futureDays} ${t('common.days')}) - ${predictionData.ticker}`}
+                    labels={[
+                      predictionData.backtesting.test_dates[predictionData.backtesting.test_dates.length - 1],
+                      ...futurePredictions.dates,
+                    ]}
+                    datasets={[
+                      {
+                        label: t('dashboard.chartFuturePrediction'),
+                        data: [
+                          predictionData.backtesting.test_prices[predictionData.backtesting.test_prices.length - 1],
+                          ...futurePredictions.predicted_prices,
+                        ],
+                        borderColor: '#9B59B6',
+                        borderDash: [8, 4],
+                        borderWidth: 2,
+                        pointRadius: 3,
+                      },
+                      {
+                        label: t('dashboard.chartUpperBound'),
+                        data: [
+                          predictionData.backtesting.test_prices[predictionData.backtesting.test_prices.length - 1],
+                          ...futurePredictions.upper_bound,
+                        ],
+                        borderColor: 'rgba(155, 89, 182, 0.3)',
+                        backgroundColor: 'rgba(155, 89, 182, 0.15)',
+                        fill: '+1',
+                        borderWidth: 1,
+                        borderDash: [2, 2],
+                        pointRadius: 0,
+                      },
+                      {
+                        label: t('dashboard.chartLowerBound'),
+                        data: [
+                          predictionData.backtesting.test_prices[predictionData.backtesting.test_prices.length - 1],
+                          ...futurePredictions.lower_bound,
+                        ],
+                        borderColor: 'rgba(155, 89, 182, 0.3)',
+                        backgroundColor: 'rgba(155, 89, 182, 0.15)',
+                        fill: false,
+                        borderWidth: 1,
+                        borderDash: [2, 2],
+                        pointRadius: 0,
+                      },
+                    ]}
+                  />
+                </PremiumCard>
+              </div>
 
-            <div
-              className="metrics-grid"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '1.5rem',
-              }}
-            >
-              {/* MSE Metric */}
-              <MetricCard
-                icon={Calculator}
-                name="MSE"
-                value={predictionData.backtesting.metrics.mse.toFixed(2)}
-                description={t('dashboard.mseDescription')}
-                interpretation={
-                  predictionData.backtesting.metrics.mse < 5
-                    ? t('dashboard.excellent')
-                    : predictionData.backtesting.metrics.mse < 15
-                    ? t('dashboard.good')
-                    : t('dashboard.regular')
-                }
-                status="warning"
-              />
+              {/* Future Prediction Metrics */}
+              <div style={{ animation: 'fadeInUp 0.5s ease-out 100ms backwards', marginBottom: '2rem' }}>
+                <h2
+                  style={{
+                    fontFamily: 'Poppins, sans-serif',
+                    fontSize: '1.875rem',
+                    fontWeight: '700',
+                    color: '#FFFFFF',
+                    marginBottom: '1.5rem',
+                    textAlign: 'center',
+                  }}
+                >
+                  {t('dashboard.futurePredictions')} — {t('dashboard.metricsTitle')}
+                </h2>
 
-              {/* RMSE Metric */}
-              <MetricCard
-                icon={Activity}
-                name="RMSE"
-                value={predictionData.backtesting.metrics.rmse.toFixed(2)}
-                description={t('dashboard.rmseDescription')}
-                interpretation={
-                  predictionData.backtesting.metrics.rmse < 2.5
-                    ? t('dashboard.excellent')
-                    : predictionData.backtesting.metrics.rmse < 5
-                    ? t('dashboard.good')
-                    : t('dashboard.regular')
-                }
-                status="info"
-              />
+                <div
+                  className="metrics-grid"
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '1.5rem',
+                  }}
+                >
+                  <MetricCard
+                    icon={BarChart2}
+                    name={t('dashboard.daysToPredict')}
+                    value={`${futureDays}`}
+                    description={t('dashboard.futurePredictionsDesc')}
+                    interpretation={
+                      futureDays <= 30
+                        ? t('dashboard.excellent')
+                        : futureDays <= 60
+                        ? t('dashboard.good')
+                        : t('dashboard.regular')
+                    }
+                    status="info"
+                  />
 
-              {/* R² Score Metric */}
-              <MetricCard
-                icon={CheckCircle2}
-                name="R² Score"
-                value={predictionData.backtesting.metrics.r2.toFixed(4)}
-                description={t('dashboard.r2Description')}
-                interpretation={
-                  predictionData.backtesting.metrics.r2 > 0.95
-                    ? t('dashboard.excellent')
-                    : predictionData.backtesting.metrics.r2 > 0.9
-                    ? t('dashboard.veryGood')
-                    : predictionData.backtesting.metrics.r2 > 0.8
-                    ? t('dashboard.good')
-                    : t('dashboard.regular')
-                }
-                status="success"
-              />
+                  <MetricCard
+                    icon={Shield}
+                    name={t('dashboard.chartUpperBound').replace(' Bound', '')}
+                    value={`${((futurePredictions.confidence_level ?? 0.95) * 100).toFixed(0)}%`}
+                    description={`${((futurePredictions.confidence_level ?? 0.95) * 100).toFixed(0)}% confidence interval`}
+                    interpretation={t('dashboard.excellent')}
+                    status="success"
+                  />
+
+                  <MetricCard
+                    icon={Target}
+                    name="Avg. Price Range"
+                    value={`$${(futurePredictions.upper_bound.reduce((s, v, i) => s + (v - futurePredictions.lower_bound[i]), 0) / futurePredictions.upper_bound.length).toFixed(2)}`}
+                    description="Average confidence band width"
+                    interpretation={t('dashboard.good')}
+                    status="warning"
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </>
       )}
 
-      {/* Add keyframes for animations and custom styles */}
       <style>{`
         @keyframes fadeInUp {
           from {
@@ -546,7 +607,6 @@ const Dashboard = () => {
           animation: spin 1s linear infinite;
         }
 
-        /* Responsive grid for charts */
         @media (max-width: 1199px) {
           .charts-grid {
             grid-template-columns: repeat(2, 1fr) !important;
@@ -561,7 +621,6 @@ const Dashboard = () => {
           }
         }
 
-        /* Responsive grid for metrics */
         .metrics-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
