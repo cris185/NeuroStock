@@ -140,8 +140,9 @@ class StockPredictionAPIView(APIView):
         # Get model from manager (cached, efficient)
         model = MLModelManager.get_instance().get_model()
 
-        # Predict
-        y_predicted_scaled = model.predict(x_test, verbose=0)
+        # Predict (ONNX inference)
+        input_name = model.get_inputs()[0].name
+        y_predicted_scaled = model.run(None, {input_name: x_test.astype('float32')})[0]
 
         # Inverse transform to real prices
         y_predicted = train_scaler.inverse_transform(
