@@ -1,0 +1,49 @@
+databases:
+  - name: neurostock-db
+    databaseName: neurostock
+    user: neurostock_user
+    plan: free
+
+services:
+  # ─── Backend (Django) ──────────────────────────────────────────
+  - type: web
+    name: neurostock-backend
+    runtime: python
+    plan: free              # onnxruntime cabe en 512MB sin problema
+    rootDir: backend-drf
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: gunicorn stock_prediction_main.wsgi:application --workers 2 --timeout 120
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: neurostock-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: ALLOWED_HOSTS
+        value: neurostock-backend.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://neurostock-frontend.onrender.com
+      - key: FRONTEND_URL
+        value: https://neurostock-frontend.onrender.com
+      - key: SENDGRID_API_KEY
+        sync: false         # Lo agregas manualmente en el dashboard
+      - key: DEFAULT_FROM_EMAIL
+        sync: false         # Lo agregas manualmente en el dashboard
+
+  # ─── Frontend (React / Vite) ───────────────────────────────────
+  - type: web
+    name: neurostock-frontend
+    runtime: static
+    rootDir: frontend-react
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_BACKEND_BASE_API
+        value: https://neurostock-backend.onrender.com/api/v1/
+      - key: VITE_BACKEND_ROOT
+        value: https://neurostock-backend.onrender.com

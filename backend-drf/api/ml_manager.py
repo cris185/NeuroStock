@@ -12,7 +12,7 @@ Benefits:
 
 import threading
 import os
-from keras.models import load_model
+import onnxruntime as ort
 from sklearn.preprocessing import MinMaxScaler
 import joblib
 
@@ -45,7 +45,7 @@ class MLModelManager:
             )
 
         # Paths relative to Django project root (backend-drf/)
-        self.model_path = 'stock_prediction_model.keras'
+        self.model_path = 'stock_prediction_model.onnx'
         self.scaler_path = 'stock_prediction_scaler.pkl'
 
     @classmethod
@@ -85,24 +85,25 @@ class MLModelManager:
                                 f"Ensure the model is in the backend-drf/ directory."
                             )
 
-                        self._model = load_model(self.model_path)
+                        sess_options = ort.SessionOptions()
+                        sess_options.inter_op_num_threads = 1
+                        sess_options.intra_op_num_threads = 1
+                        self._model = ort.InferenceSession(
+                            self.model_path,
+                            sess_options=sess_options,
+                            providers=['CPUExecutionProvider'],
+                        )
 
-                        # Validate model architecture
-                        if len(self._model.inputs) != 1:
-                            raise ValueError(
-                                f"Expected 1 input, got {len(self._model.inputs)}"
-                            )
-
-                        input_shape = self._model.inputs[0].shape
-                        if input_shape[1:] != (100, 1):
+                        # Validate model input shape
+                        input_shape = self._model.get_inputs()[0].shape
+                        if input_shape[1:] != [100, 1]:
                             raise ValueError(
                                 f"Expected input shape (None, 100, 1), "
                                 f"got {input_shape}"
                             )
 
-                        print(f"✓ Model loaded successfully from {self.model_path}")
+                        print(f"✓ ONNX model loaded successfully from {self.model_path}")
                         print(f"  Input shape: {input_shape}")
-                        print(f"  Total params: {self._model.count_params():,}")
 
                     except Exception as e:
                         raise RuntimeError(

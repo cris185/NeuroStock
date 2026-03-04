@@ -108,18 +108,15 @@ class FuturePredictionEngine:
             # Monte Carlo Dropout: multiple forward passes with dropout enabled
             mc_predictions = []
 
+            _input_name = self.model.get_inputs()[0].name
+
             for _ in range(mc_iterations):
-                # Reshape for model: (batch_size=1, sequence_length, features=1)
+                # Add small Gaussian noise to simulate MC Dropout uncertainty.
+                # Scale 0.005 on normalized [0,1] data ≈ ±0.5% perturbation.
                 X = current_sequence.reshape(1, self.sequence_length, 1)
+                X_noisy = (X + np.random.normal(0, 0.005, X.shape)).astype('float32')
 
-                # Prediction with dropout active (training=True enables dropout)
-                # Note: Model must have Dropout layers for this to work effectively
-                try:
-                    pred = self.model(X, training=True).numpy()[0, 0]
-                except Exception:
-                    # Fallback if training=True not supported
-                    pred = self.model.predict(X, verbose=0)[0, 0]
-
+                pred = self.model.run(None, {_input_name: X_noisy})[0][0, 0]
                 mc_predictions.append(pred)
 
             # Calculate statistics from MC samples
