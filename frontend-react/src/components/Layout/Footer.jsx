@@ -19,10 +19,10 @@ const Footer = () => {
             {t('footer.description')}
           </p>
           <div className='sp-footer-social'>
-            <a href='https://github.com' target='_blank' rel='noopener noreferrer' className='sp-footer-social-icon' aria-label='GitHub'>
+            <a href='https://github.com/cris185/NeuroStock' target='_blank' rel='noopener noreferrer' className='sp-footer-social-icon' aria-label='GitHub'>
               <FontAwesomeIcon icon={faGithub} />
             </a>
-            <a href='https://linkedin.com' target='_blank' rel='noopener noreferrer' className='sp-footer-social-icon' aria-label='LinkedIn'>
+            <a href='https://www.linkedin.com/in/cpd2001/' target='_blank' rel='noopener noreferrer' className='sp-footer-social-icon' aria-label='LinkedIn'>
               <FontAwesomeIcon icon={faLinkedin} />
             </a>
             <a href='https://x.com' target='_blank' rel='noopener noreferrer' className='sp-footer-social-icon' aria-label='X (formerly Twitter)'>
