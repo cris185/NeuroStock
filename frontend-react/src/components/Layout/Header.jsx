@@ -1,7 +1,7 @@
 import { useState, useCallback, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { TrendingUp, Menu } from 'lucide-react';
+import { TrendingUp, Menu, LayoutDashboard, LineChart, FlaskConical } from 'lucide-react';
 import { AuthContext } from '../Hooks/AuthProvider';
 import { useScrollBehavior } from '../../hooks/useScrollBehavior';
 import PremiumButton from '../ui/PremiumButton';
@@ -17,9 +17,16 @@ const Header = () => {
   // State management
   const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const { isScrolled } = useScrollBehavior(20);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { t } = useTranslation();
+
+  const navLinks = [
+    { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { to: '/predictions', icon: LineChart, label: 'Predicciones' },
+    { to: '/playground', icon: FlaskConical, label: 'Playground' },
+  ];
 
   // Handlers
   const handleLogout = useCallback(() => {
@@ -131,12 +138,44 @@ const Header = () => {
             >
               {isLoggedIn ? (
                 <>
-                  <PremiumButton
-                    variant="secondary"
-                    onClick={() => navigate('/dashboard')}
-                  >
-                    {t('header.dashboard')}
-                  </PremiumButton>
+                  {navLinks.map(({ to, icon: Icon, label }) => {
+                    const isActive = location.pathname === to;
+                    return (
+                      <button
+                        key={to}
+                        onClick={() => navigate(to)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.375rem',
+                          padding: '0.5rem 0.875rem',
+                          borderRadius: '0.5rem',
+                          border: isActive ? '1px solid rgba(46, 90, 143, 0.5)' : '1px solid transparent',
+                          background: isActive ? 'rgba(46, 90, 143, 0.15)' : 'transparent',
+                          color: isActive ? '#4A7AB7' : '#B8BFCC',
+                          fontSize: '0.875rem',
+                          fontWeight: isActive ? '600' : '400',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isActive) {
+                            e.currentTarget.style.background = 'rgba(46, 90, 143, 0.08)';
+                            e.currentTarget.style.color = '#FFFFFF';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isActive) {
+                            e.currentTarget.style.background = 'transparent';
+                            e.currentTarget.style.color = '#B8BFCC';
+                          }
+                        }}
+                      >
+                        <Icon style={{ width: '1rem', height: '1rem' }} />
+                        {label}
+                      </button>
+                    );
+                  })}
                   <UserMenu handleLogout={handleLogout} />
                 </>
               ) : (

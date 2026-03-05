@@ -28,18 +28,20 @@ class FuturePredictionEngine:
         sequence_length: Number of historical days required (default: 100)
     """
 
-    def __init__(self, model, scaler, sequence_length=100):
+    def __init__(self, model, scaler, sequence_length=100, uncertainty_growth=0.02):
         """
         Initialize prediction engine.
 
         Args:
-            model: Trained Keras model
+            model: Trained ONNX model (InferenceSession)
             scaler: MinMaxScaler fitted on training data only
             sequence_length (int): Sequence length for LSTM input (default: 100)
+            uncertainty_growth (float): Uncertainty increase per day (default: 0.02 = 2%)
         """
         self.model = model
         self.scaler = scaler
         self.sequence_length = sequence_length
+        self.uncertainty_growth = uncertainty_growth
 
     def predict_future(self, historical_prices, horizon,
                        confidence_level=0.95, mc_iterations=50):
@@ -125,8 +127,8 @@ class FuturePredictionEngine:
             std_pred = mc_predictions.std()
 
             # Increase uncertainty with prediction horizon (error accumulation)
-            # Each additional day adds 2% more uncertainty
-            uncertainty_factor = 1.0 + (0.02 * day)
+            # Each additional day adds uncertainty_growth more uncertainty (default: 2%)
+            uncertainty_factor = 1.0 + (self.uncertainty_growth * day)
             adjusted_std = std_pred * uncertainty_factor
 
             # Calculate confidence intervals

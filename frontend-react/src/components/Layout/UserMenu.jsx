@@ -2,6 +2,8 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { ChevronDown, LayoutDashboard, User, Settings, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
+import { AuthContext } from '../Hooks/AuthProvider';
 
 /**
  * User Menu Dropdown Component
@@ -9,6 +11,7 @@ import { useTranslation } from 'react-i18next';
  */
 const UserMenu = ({ handleLogout }) => {
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
@@ -76,12 +79,12 @@ const UserMenu = ({ handleLogout }) => {
               color: '#FFFFFF',
               fontSize: '0.875rem',
               margin: 0,
-            }}>{t('userMenu.user')}</p>
+            }}>{user?.username || t('userMenu.user')}</p>
             <p style={{
               fontSize: '0.75rem',
               color: '#8A92A5',
               margin: 0,
-            }}>{t('userMenu.email')}</p>
+            }}>{user?.email || t('userMenu.email')}</p>
           </div>
 
           {/* Dashboard */}

@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { X, LogIn, UserPlus, LayoutDashboard, LogOut } from 'lucide-react';
+import { X, LogIn, UserPlus, LayoutDashboard, LineChart, FlaskConical, LogOut } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import LanguageSelector from './LanguageSelector';
 
@@ -21,7 +21,9 @@ const MobileMenu = ({ isOpen, onClose, isLoggedIn, handleLogout }) => {
 
   const menuItems = isLoggedIn
     ? [
-        { to: '/dashboard', icon: LayoutDashboard, label: t('mobileMenu.dashboard') },
+        { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+        { to: '/predictions', icon: LineChart, label: 'Predicciones' },
+        { to: '/playground', icon: FlaskConical, label: 'Playground' },
         {
           to: '#',
           icon: LogOut,

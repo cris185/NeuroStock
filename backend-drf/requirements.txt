@@ -25,6 +25,9 @@ scipy==1.15.3
 # Stock data
 pandas==2.2.3
 yfinance==0.2.61
+yahooquery==2.3.7
+alpha-vantage==3.0.0
+finnhub-python==2.4.27
 beautifulsoup4==4.13.4
 requests==2.32.3
 multitasking==0.0.11
